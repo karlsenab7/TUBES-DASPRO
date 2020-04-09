@@ -1,10 +1,93 @@
+File Wahana
+ID_Wahana,Nama_Wahana,Harga_Tiket,Batasan_Umur,Batasan_Tinggi
+Keterangan:
+● ID_Wahana: Identitas dari wahana mengikuti format yang sesuai.
+● Nama_Wahana: Nama dari wahana
+● Harga_Tiket: Harga satu tiket dari wahana
+● Batasan_Umur: Kategori batasan umur (anak-anak, dewasa, semua umur)
+● Batasan_Tinggi: Kategori batasan tinggi (>= 170 cm, tanpa batasan)
+
+Format ID Wahana
+Untuk penulisan ID wahana, menggunakan format AAANNN.
+Keterangan:
+● AAA: Kode alfabetik yang dituliskan dalam 3 huruf kapital (contoh: AHR, DNA, FLW)
+● NNN: Kode numerik yang dituliskan dalam 3 angka (contoh: 154, 302, 403)
+-----------------------------------------------------------------------------------------------------------
+
+
 Wahana Bianglala
+  ID_Wahana: SEM001
+  Nama_Wahana: Bianglala
+  Harga_Tiket: Rp50.000
+  Batasan_Umur: semua umur
+  Batasan_Tinggi: tanpa batasan
+  
 Wahana Poci-Poci
+  ID_Wahana: SEM002
+  Nama_Wahana: Poci-Poci
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: semua umur
+  Batasan_Tinggi: tanpa batasan
+  
 Wahana Kora-Kora
+  ID_Wahana: DEW001
+  Nama_Wahana: Kora-Kora
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: dewasa
+  Batasan_Tinggi: >=120 cm
+  
 Wahana Hysteria
+  ID_Wahana: DEW002
+  Nama_Wahana: Hysteria
+  Harga_Tiket: Rp50.000
+  Batasan_Umur: dewasa
+  Batasan_Tinggi: >=120 cm
+  
 Wahana Kicir-Kicir
+  ID_Wahana: DEW003
+  Nama_Wahana: Kicir-Kicir
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: dewasa
+  Batasan_Tinggi: >=120 cm
+  
 Wahana Tornado
+  ID_Wahana: DEW004
+  Nama_Wahana: Tornado
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: dewasa
+  Batasan_Tinggi: >=120 cm
+  
 Wahana Istana Boneka
+  ID_Wahana: SEM003
+  Nama_Wahana: Istana Boneka
+  Harga_Tiket: Rp35.000
+  Batasan_Umur: semua umur
+  Batasan_Tinggi: tanpa batasan
+  
 Wahana Happy Feet
+  ID_Wahana: SEM004
+  Nama_Wahana: Happy Feet
+  Harga_Tiket: Rp35.000
+  Batasan_Umur: semua umur
+  Batasan_Tinggi: tanpa batasan
+  
 Wahana Arung Jeram
+  ID_Wahana: DEW005
+  Nama_Wahana: Arung Jeram
+  Harga_Tiket: Rp50.000
+  Batasan_Umur: dewasa
+  Batasan_Tinggi: >= 120 cm
+  
 Wahana Rumah Miring
+  ID_Wahana: SEM00005
+  Nama_Wahana: Istana Boneka
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: semua umur
+  Batasan_Tinggi: tanpa batasan
+ 
+ Wahana Dunia Kartun
+  ID_Wahana: ANK001
+  Nama_Wahana: Dunia Kartun
+  Harga_Tiket: Rp40.000
+  Batasan_Umur: anak-anak
+  Batasan_Tinggi: <= 120 cm
