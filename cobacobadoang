@@ -1,1 +1,19 @@
 #include<Python3.h>
+import csv
+
+def login():
+    with open("user.csv", 'a') as csv_file:
+        fieldnames = ['Nama', 'Tanggal_Lahir', 'Username', "Password", "Role", 'Saldo']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        name = input("Nama lengkap : ")
+        born = input("Masukkan tanggal lahir Anda: ")
+        username = input("Masukkan username : ")
+        password = input("Masukkan password : ")
+        role = int(input("Masukkan role : ")) #1 untuk admin, 2 untuk player
+        saldo = input("Masukkan saldo : ")
+
+        writer.writerow({'Nama' : name, 'Tanggal_Lahir': born, 'Username' : username, 'Password' : password, 'Role' : role, 'Saldo' :saldo })
+        print(username, "berhasil dibuat")
+        
+login()
