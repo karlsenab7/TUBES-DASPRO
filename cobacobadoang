@@ -1,1 +1,59 @@
-coba coba doang
+PROGRAM TUBES
+import csv
+import os #buat clearscreen
+
+loadFile()
+#Tampilan utama
+
+# Menu Login
+while not Login:
+		Login()
+
+#setelah login, dicek role nya
+misal if user.role == 'admin':
+	#Admin
+	while not Exit:
+  		pilihan = int(input("Masukan pilihan : "))
+      if pilihan == 1:
+      	signUp()
+      elif pilihan == 2:
+      	cari_pemain()
+      elif pilihan == 3:
+      	cari_wahana()
+      elif pilihan == 4:
+      	view_kritik()
+      elif pilihan == 5:
+      	addWahana()
+      elif pilihan == 6:
+      	TopUp()
+      elif pilihan == 7:
+      	riwayat_wahana()
+      elif pilihan == 8:
+      	viewPlayer_ticket()
+      elif pilihan == 9:
+      	Exit()
+      else:
+      		print("invalid input")
+      	
+
+else: #role = pemain
+	#User
+  while not Exit:
+  	pilihan = int(input())
+      if pilihan == 1:
+      	cari_wahana()
+      elif pilihan == 2:
+      	beli_tiket()
+      elif pilihan == 3:
+      	use_ticket()
+      elif pilihan == 4:
+      	refund()
+      elif pilihan == 5:
+      	Kritik()
+      elif pilihan == 6:
+      	Exit()
+      else:
+      		print("invalid input")
+  
+print("TERIMAKASIH SUDAH BERMAIN :)")
+  
