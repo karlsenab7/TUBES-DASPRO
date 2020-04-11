@@ -1,19 +1,53 @@
 #include<Python3.h>
+
 import csv
+import os
+from os import path
 
-def login():
-    with open("user.csv", 'a') as csv_file:
-        fieldnames = ['Nama', 'Tanggal_Lahir', 'Username', "Password", "Role", 'Saldo']
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+user_file = input() #contoh
+contact = [] #array penyimpan nantinya ada 7 array
 
-        name = input("Nama lengkap : ")
-        born = input("Masukkan tanggal lahir Anda: ")
-        username = input("Masukkan username : ")
-        password = input("Masukkan password : ")
-        role = int(input("Masukkan role : ")) #1 untuk admin, 2 untuk player
-        saldo = input("Masukkan saldo : ")
+#fungsi untuk memasukan data csv ke array
+def load(arrData, csv_file_path): 
+    with open(csv_file_path, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        for row in csv_reader:
+            arrData.append(row)
 
-        writer.writerow({'Nama' : name, 'Tanggal_Lahir': born, 'Username' : username, 'Password' : password, 'Role' : role, 'Saldo' :saldo })
-        print(username, "berhasil dibuat")
+#fungsi untuk membuat file beserta dengan headernya, dibuat hanya jika file belum ada
+def create_file(csv_file_path):
+    with open(csv_file_path, 'w', newline="") as csv_file:
+        writer = csv.writer(csv_file)
+        if csv_file_path == ('user.csv'):
+            writer.writerow(['Nama', 'Tanggal_Lahir', 'Username', 'Password', 'Role', 'Saldo'])
+        elif csv_file_path == 'pembelian.csv':
+            writer.writerow(['Username', 'Tanggal_Pembelian', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'penggunaan.csv':
+            writer.writerow(['Username', 'Tanggal_Penggunaan', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'tiket.csv':
+            writer.writerow(['Username', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'refund.csv':
+            writer.writerow(['Username', 'Tanggal_Refund', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'kritiksaran.csv':
+            writer.writerow(['Username', 'Tanggal_Kritik', 'ID_Wahana', 'Isi_Kritik'])
+
+#fungsi untuk memasukkan array ke csv
+def save_file(arr_data, csv_file_path):
+    with open(csv_file_path, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for i in range(len(arr_data)):
+            writer.writerow(arr_data[i])
         
-login()
+
+
+#Contoh cara pake
+if path.exists(user_file): #jika file sudah ada langsung masukan isi csv ke array
+    load(contact, user_file)
+else: 
+    create_file(user_file)
+    load(contact,user_file)
+
+print(contact)
+refund = ['Jafar', '07/12/00', '000ABC', '2']
+contact.append(refund)
+save_file(contact, user_file)
