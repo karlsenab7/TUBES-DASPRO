@@ -29,9 +29,7 @@ setDatabase("User.csv")
 
 
 
-user_file = input()
-contact = []
-
+# Fungsi Jafar
 #fungsi untuk memasukan data csv ke array
 def load(arrData, csv_file_path): 
     with open(csv_file_path, 'r') as csv_file:
@@ -62,7 +60,20 @@ def save_file(arr_data, csv_file_path):
         writer = csv.writer(csv_file)
         for i in range(len(arr_data)):
             writer.writerow(arr_data[i])
-        
+	   
+#Fungsi Cari Pemain
+def cari_pemain(arr_data):
+    found = False
+    pemain = input("Masukkan username : ")
+    for baris in range (len(arr_data)):
+        if arr_data[baris][3] == pemain:
+            print('Nama Pemain :', arr_data[baris][0])
+            print('Tinggi Pemain :', arr_data[baris][2])
+            print("Tanggal lahir pemain :", arr_data[baris][1])
+            found = True
+            break
+    if not found:
+        print("Username tidak ditemukan, periksa kembali penulisan username / username tidak ada pada sistem kami")
 
 
 #Contoh cara pake
@@ -73,11 +84,91 @@ else:
     load(contact,user_file)
 #contact.append(refund)
 
-print(contact)
 
-refund = ['Jafar', 'ANK001', 2]
-contact.append(refund)
-print(contact)
-save_file(contact, user_file)
+
+
+
+
+#Endof Bagian Jafar
+
+
+
+
+
+
+
+
+
+
+#Bagian Yudi
+
+
+
+
+
+
+
+#End of bagian Yudi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Bagian Karlsen
+
+
+
+
+
+
+
+
+
+
+#Endof bagian Karlsen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Bagian Bona
+
+
+
+
+
+
+
+
+
+
+
+
+#End of bagian Bona
+
 
 
