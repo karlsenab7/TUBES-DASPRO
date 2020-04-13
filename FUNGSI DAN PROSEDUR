@@ -218,6 +218,31 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
 
 #Bagian Karlsen
 
+#fungsi login
+def login(arr_data)
+    login = False
+
+    while login == False:
+        data_sign_up = {}
+        with open("login.csv") as login:
+            csv_reader = csv.reader(login)
+            for row in csv_reader:
+                data_sign_up.append(row)
+        
+        username = input("Please enter your username: ")
+        password = input("Please enter your password: ")
+
+        col0 = [x[0] for x in data_sign_up]
+        col1 = [x[1] for x in data_sign_up]
+
+        if username in col0:
+            for i in range(0, len(col0)):
+                if col0[i] == username and col1[i] == password:
+                    print("You are logged in")
+                    login = True
+
+        else:
+            print("Wrong username or password")
 
 
 
