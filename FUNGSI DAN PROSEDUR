@@ -30,21 +30,43 @@ setDatabase("User.csv")
 
 
 # Fungsi Jafar
+#Fungsi menghitung panjang kolom / menghitung banyaknya kolom
+def column_length(arr_data):
+    panjang = 0
+    for i in arr_data[0]:
+        panjang += 1
+    return panjang
+    
+    
+#Fungsi untuk menghitung panjang baris
+def row_length(array_data):    
+    jml_baris = 0
+    idx_baris = 0
+    for row in array_data:
+        if array_data[idx_baris][0] == '': #jika di kolom pertama sudah menemukan default value maka terdeteksi bukan data
+            break
+        jml_baris += 1
+        idx_baris += 1
+    return jml_baris
+    
 #fungsi untuk memasukan data csv ke array
 def load(arrData, csv_file_path): 
     with open(csv_file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for row in csv_reader:
-            arrData.append(row)
+            temp_array = row #temp_array adalah satu array yang berisi satu baris data pada csv
+            idx_baris = row_length(arrData) #ambil indeks yang masih kosong
+            for kolom in range(column_length(arrData)):
+                arrData[idx_baris][kolom] = temp_array[kolom]
 
-#fungsi untuk membuat file beserta dengan headernya, dibuat hanya jika file belum ada
+#fungsi untuk membuat file beserta dengan headernya, dipanggil hanya jika file belum ada
 def create_file(csv_file_path):
     with open(csv_file_path, 'w', newline="") as csv_file:
         writer = csv.writer(csv_file)
         if csv_file_path == ('user.csv'):
             writer.writerow(['Nama', 'Tanggal_Lahir','Tinggi_Badan', 'Username', 'Password', 'Role', 'Saldo'])
             writer.writerow(['admin', '00/00/0000', '0', 'admin', 'password', 'admin', '0']) #ini akun untuk admin
-	elif csv_file_path == 'wahana.csv':
+        elif csv_file_path == 'wahana.csv':
             writer.writerow(['ID_Wahana', 'Nama_Wahana','Harga_Tiket', 'Batasan_Umur', 'Batasan_Tinggi'])
         elif csv_file_path == 'pembelian.csv':
             writer.writerow(['Username', 'Tanggal_Pembelian', 'ID_Wahana', 'Jumlah_Tiket'])
@@ -61,17 +83,17 @@ def create_file(csv_file_path):
 def save_file(arr_data, csv_file_path):
     with open(csv_file_path, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        for i in range(len(arr_data)):
+        for i in range(row_length(arr_data)):
             writer.writerow(arr_data[i])
-	   
-#Fungsi Cari Pemain
-def cari_pemain(arr_data):
+	
+	
+def cari_pemain(arr_data): #array yang dimasukkan adalah array user
     found = False
     pemain = input("Masukkan username : ")
-    for baris in range (len(arr_data)):
+    for baris in range (row_length(arr_data)):
         if arr_data[baris][3] == pemain:
             print('Nama Pemain :', arr_data[baris][0])
-            print('Tinggi Pemain :', arr_data[baris][2])
+            print('Tinggi Pemain :', arr_data[baris][2], 'cm')
             print("Tanggal lahir pemain :", arr_data[baris][1])
             found = True
             break
@@ -79,7 +101,6 @@ def cari_pemain(arr_data):
         print("Username tidak ditemukan, periksa kembali penulisan username / username tidak ada pada sistem kami")
 
 
-#fungsi beli_tiket, agak panjang gatau sih. conditionalnya banyak
 def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
     tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
@@ -87,43 +108,38 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
     jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
 
     #dapatkan tanggal lahir,tinggi_badan, dan saldo username yang diakses dari array yang berisi file user.csv
-    for i in range(len(arr_data_user)):
-        if arr_data_user[i][3] == username:
-            indeks = i
-            Tinggi_Badan = int(arr_data_user[i][2])
-            saldo = int(arr_data_user[i][6])
+    for idx_baris in range(row_length(arr_data_user)):
+        if arr_data_user[idx_baris][3] == username:
+            indeks = idx_baris
+            Tinggi_Badan = int(arr_data_user[idx_baris][2])
+            saldo = int(arr_data_user[idx_baris][6])
             #Proses untuk mendapatkan kategori umur user
-            date_born = arr_data_user[i][1] #tanggal lahir user
+            date_born = arr_data_user[idx_baris][1] #tanggal lahir user
             tahun_lahir_user = int(date_born[6:]) #dapatkan tahun lahir user
             break
-             
+            
+    
     #dapatkan data id Wahana, harga tiket, batasan umur dan batasan tinggi badan dari array berisi file wahana.csv
-    for i in range (len(arr_data_wahana)):
-        if arr_data_wahana[i][0] == ID_Wahana:
-            harga_tiket = int(arr_data_wahana[i][2]) #dapatkan dalam bentuk integer
-            batasan_umur = arr_data_wahana[i][3]
-            batasan_tinggi = arr_data_wahana[i][4]
+    for idx_baris in range (row_length(arr_data_wahana)):
+        if arr_data_wahana[idx_baris][0] == ID_Wahana:
+            harga_tiket = int(arr_data_wahana[idx_baris][2]) #dapatkan dalam bentuk integer
+            batasan_umur = arr_data_wahana[idx_baris][3]
+            batasan_tinggi = arr_data_wahana[idx_baris][4]
             break
 
     #asumsi umur yang mendekati umur tersebut dibulatkan
     #misal usia anak-anak 12 tahun, tahun sekarang 2020, tahun lahir user 2008, maka akan digenapkan menjadi 12 tahun meskipun sebenarnya ia belum ulang tahun pada tahun tersebut
     umur_user = tahun_beli - tahun_lahir_user
-    if umur_user <= 12:
-        kategori_user = 'anak-anak'
-    elif umur_user >= 18:
-        kategori_user = 'dewasa'
-    else:
-        kategori_user = 'semua umur'
 
     beli_sukses = False #tanda berhasil diproses atau tidak
-    if batasan_umur == 'anak-anak' and kategori_user == 'anak-anak':
+    if batasan_umur == 'anak-anak' and umur_user <= 12:
         #pada wahana anak-anak tidak ada batas tinggi badan
         if saldo >= harga_tiket * jumlah_tiket:
             beli_sukses = True
             print("Selamat bersenang-senang di Almond’s Charm!", username)
         else: #saldo tidak cukup
             print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-    elif batasan_umur == 'dewasa' and kategori_user == 'dewasa':
+    elif batasan_umur == 'dewasa' and umur_user >= 18:
         if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
             if saldo >= harga_tiket*jumlah_tiket:
                 beli_sukses = True
@@ -158,21 +174,9 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
 
     data_input = [username, tanggal, ID_Wahana, jumlah_tiket] #menampung data input user untuk dimasukkan ke array_data_beli
     if beli_sukses == True:
-        arr_data_beli.append(data_input) #pembelian berhasil, tambahkan data ke array global tempat data pembelian
-        arr_data_user[indeks][6] = (saldo - harga_tiket * jumlah_tiket) #update nilai saldo user pada array berisi saldo
-
-
-
-
-
-#Contoh cara pake
-if path.exists(user_file): #jika file sudah ada langsung masukan isi csv ke array
-    load(contact, user_file)
-else: 
-    create_file(user_file)
-    load(contact,user_file)
-#contact.append(refund)
-
+        indeks_kosong = row_length(arr_data_beli) #dapatkan indeks yang masih kosong
+        for kolom in range (column_length(arr_data_beli)):
+            arr_data_beli[indeks_kosong][kolom] = data_input[kolom]
 
 
 
