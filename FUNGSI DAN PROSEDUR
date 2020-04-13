@@ -42,7 +42,8 @@ def create_file(csv_file_path):
     with open(csv_file_path, 'w', newline="") as csv_file:
         writer = csv.writer(csv_file)
         if csv_file_path == ('user.csv'):
-            writer.writerow(['Nama', 'Tanggal_Lahir', 'Username', 'Password', 'Role', 'Saldo'])
+            writer.writerow(['Nama', 'Tanggal_Lahir','Tinggi_Badan', 'Username', 'Password', 'Role', 'Saldo'])
+            writer.writerow(['admin', '00/00/0000', '0', 'admin', 'password', 'admin', '0']) #ini akun untuk admin
 	elif csv_file_path == 'wahana.csv':
             writer.writerow(['ID_Wahana', 'Nama_Wahana','Harga_Tiket', 'Batasan_Umur', 'Batasan_Tinggi'])
         elif csv_file_path == 'pembelian.csv':
