@@ -251,7 +251,53 @@ def show_menu_admin():
 
 #Bagian Yudi
 
+#Prosedur Penggunaan Tiket
+def Use_Tiket (_username):
 
+	nKepemilikanTiket = 0		#Banyak data pada data_kepemilikan_tiket
+	for line in data_kepemilikan_tiket :
+		if (line[0] != ""):
+			nKepemilikanTiket += 1
+		else:
+			break
+
+	nPenggunaanWahana = 0		#Banyak data pada data_penggunaan_wahana
+	for line in data_penggunaan_wahana :
+		if (line[0] != ""):
+			nKepemilikanTiket += 1
+		else:
+			break
+
+
+	dataPenggunaan = ["" for i in range(4)]
+	valid = False
+	while(not valid and nKepemilikanTiket != 0):
+
+		ID = input("Masukkan ID wahana : ")
+		date = input("Masukkan tanggal hari ini : ")
+		tickets = input("Jumlah tiket yang digunakan : ")
+
+		for i in range(nKepemilikanTiket):
+			if (data_kepemilikan_tiket[i][0] == _username):
+				if (data_kepemilikan_tiket[i][1] == ID and data_kepemilikan_tiket[i][2] >= tickets and tickets != 0):
+					valid = True		
+					idx = i	
+
+		if (not valid):
+			print("\nTiket Anda tidak valid dalam sistem kami")
+		else:
+			print("\nTerima kasih telah bermain.")
+
+
+	if (valid):
+		dataPenggunaan[0] = _username
+		dataPenggunaan[1] = date
+		dataPenggunaan[2] = ID
+		dataPenggunaan[3] = tickets
+
+		data_kepemilikan_tiket[idx][2] = str(int(data_kepemilikan_tiket[idx][2]) - int(tickets))	#Pengurangan tiket
+	
+		data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
 
 
 
