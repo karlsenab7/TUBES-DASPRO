@@ -14,14 +14,23 @@ data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menamp
 
 
 #load semua data
-fungsi.start_file(data_user,'user.csv')
-fungsi.start_file(data_wahana,'wahana.csv')
-fungsi.start_file(data_pembelian_tiket, 'pembelian.csv')
-fungsi.start_file(data_penggunaan_wahana, 'penggunaan.csv')
-fungsi.start_file(data_kepemilikan_tiket, 'tiket.csv')
-fungsi.start_file(data_refund,'refund.csv')
-fungsi.start_file(data_kritik, 'kritiksaran.csv')
-fungsi.show_load()
+file_user = input("Masukkan nama File User: ")
+file_wahana = input("Masukkan nama File Daftar Wahana: ")
+file_pembelian = input("Masukkan nama File Pembelian Tiket: ")
+file_penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+file_tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+file_refund = input("Masukkan nama File Refund Tiket: ")
+file_kritik = input("Masukkan nama File Kritik dan Saran: ")
+
+fungsi.start_file(data_user,file_user)
+fungsi.start_file(data_wahana,file_wahana)
+fungsi.start_file(data_pembelian_tiket, file_pembelian)
+fungsi.start_file(data_penggunaan_wahana, file_penggunaan)
+fungsi.start_file(data_kepemilikan_tiket, file_tiket)
+fungsi.start_file(data_refund,file_refund)
+fungsi.start_file(data_kritik, file_kritik)
+print()
+print('File perusahaan Willy Wangky’s Chocolate Factory telah di-load.')
 
 
 
