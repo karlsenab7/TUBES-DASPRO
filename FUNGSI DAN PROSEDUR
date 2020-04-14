@@ -282,27 +282,20 @@ def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 #Bagian Karlsen
 
 #fungsi login
-def login(arr_data)
-    login = False
+username = input("Please enter your username: ")
+password = input("Please enter your password: ")
 
-    while login == False:
-        
-        username = input("Please enter your username: ")
-        password = input("Please enter your password: ")
+def login(username, password):
 
-        col0 = [x[0] for x in array_user]
-        col1 = [x[1] for x in array_user]
-
-        if username in col0:
-            for i in range(0, len(col0)):
-                if col0[i] == username and col1[i] == password:
-                    print("You are logged in")
-                    login = True
-		    return True
-
-        else:
-            print("Wrong username or password")
-	    return False
+    found = False
+    for i in range(0, 7):
+        if array_data[i][3] == username and array_data[i][4] == password:
+            print("You are logged in")
+            found = True
+            return True
+    if found = False:
+        print("Wrong username or password")
+        return False
 
 
 
