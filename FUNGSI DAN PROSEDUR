@@ -184,8 +184,7 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
     if beli_sukses == True:
         arr_data_user[indeks][6] = (saldo - harga_tiket * jumlah_tiket) #update nilai saldo user pada array berisi saldo
         indeks_kosong = row_length(arr_data_beli) #dapatkan indeks yang masih kosong
-        for kolom in range (column_length(arr_data_beli)): #isi array pembelian
-            arr_data_beli[indeks_kosong][kolom] = data_input[kolom] 
+        arr_data_beli[indeks_kosong] = data_input
 
         tiket_punya = False #False, artinya username belum punya tiket sebelumnya
         for baris in range (row_length(arr_data_tiket)): #cek apakah username sudah memiliki tiket di ID Wahana tersebut atau belum
@@ -194,10 +193,9 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
                 tiket_punya = True
                 break
         if tiket_punya == False:
+            data_tiket = [username, ID_Wahana, jumlah_tiket]
             idx_empty = row_length(arr_data_tiket) #dapatkan indeks yang masih kosong untuk diisi data
-            arr_data_tiket[idx_empty][0] = username
-            arr_data_tiket[idx_empty][1] = ID_Wahana
-            arr_data_tiket[idx_empty][2] = jumlah_tiket
+            arr_data_tiket[idx_empty] = data_tiket
             
 #Tambahan prosedur untuk program utama
 def show_load():
