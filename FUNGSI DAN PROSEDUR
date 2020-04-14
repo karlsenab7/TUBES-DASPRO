@@ -190,6 +190,7 @@ def upgrade_gold(data_user):
             success = True
             break
     if not success:
+    	print("Username tidak ditemukan / saldo tidak cukup")
             
 #Tambahan prosedur untuk program utama
 def show_menu_player():
