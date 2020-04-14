@@ -87,16 +87,16 @@ def start_file(arr_data, csv_file_name):
 def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data_tiket):
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
     tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
-    tahun_beli = int(tanggal[6:]) #dapatkan tahun pembelian
     jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
 
+    tahun_beli = int(tanggal[6:]) #dapatkan tahun pembelian
     #dapatkan tanggal lahir,tinggi_badan, dan saldo username yang diakses dari array yang berisi file user.csv
     for idx_baris in range(row_length(arr_data_user)):
         if arr_data_user[idx_baris][3] == username:
             indeks = idx_baris
             Tinggi_Badan = int(arr_data_user[idx_baris][2])
             saldo = int(arr_data_user[idx_baris][6])
-            #Proses untuk mendapatkan kategori umur user
+            role_user = arr_data_user[idx_baris][5]
             date_born = arr_data_user[idx_baris][1] #tanggal lahir user
             tahun_lahir_user = int(date_born[6:]) #dapatkan tahun lahir user
             break
@@ -112,18 +112,23 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
     #asumsi umur yang mendekati umur tersebut dibulatkan
     #misal usia anak-anak 12 tahun, tahun sekarang 2020, tahun lahir user 2008, maka akan digenapkan menjadi 12 tahun meskipun sebenarnya ia belum ulang tahun pada tahun tersebut
     umur_user = tahun_beli - tahun_lahir_user
+    total_harga = (harga_tiket * jumlah_tiket)
+
+    #jika memiliki akun gold harga tiket setengahnya
+    if role_user == 'pemain+':
+        total_harga = (0.5 * harga_tiket) * jumlah_tiket
 
     beli_sukses = False #tanda berhasil diproses atau tidak
     if batasan_umur == 'anak-anak' and umur_user <= 12:
         #pada wahana anak-anak tidak ada batas tinggi badan
-        if saldo >= harga_tiket * jumlah_tiket:
+        if saldo >= total_harga:
             beli_sukses = True
             print("Selamat bersenang-senang di Almond’s Charm!", username)
         else: #saldo tidak cukup
             print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
     elif batasan_umur == 'dewasa' and umur_user >= 18:
         if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
-            if saldo >= harga_tiket*jumlah_tiket:
+            if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
@@ -131,14 +136,14 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
-            if saldo >= harga_tiket*jumlah_tiket:
+            if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
     elif batasan_umur == 'semua umur':
         if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
-            if saldo >= harga_tiket*jumlah_tiket:
+            if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
@@ -146,7 +151,7 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
-            if saldo >= harga_tiket*jumlah_tiket:
+            if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
@@ -155,9 +160,8 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
 
     data_input = [username, tanggal, ID_Wahana, jumlah_tiket] #menampung data input user untuk dimasukkan ke array_data_beli
-    
     if beli_sukses == True:
-        arr_data_user[indeks][6] = (saldo - harga_tiket * jumlah_tiket) #update nilai saldo user pada array berisi saldo
+        arr_data_user[indeks][6] = (saldo - total_harga) #update nilai saldo user pada array berisi saldo
         indeks_kosong = row_length(arr_data_beli) #dapatkan indeks yang masih kosong
         arr_data_beli[indeks_kosong] = data_input
 
@@ -171,19 +175,23 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
             data_tiket = [username, ID_Wahana, jumlah_tiket]
             idx_empty = row_length(arr_data_tiket) #dapatkan indeks yang masih kosong untuk diisi data
             arr_data_tiket[idx_empty] = data_tiket
+	    
+def upgrade_gold(data_user):
+    # untuk akun gold saldo harus Rp75000
+    print('========================')
+    print("Untuk upgrade, pastikan saldo pemain >= Rp75000")
+    username = input("Masukkan username yang ingin di-upgrade: ")
+    success = False
+    for i in range(7):
+        if data_user[i][3] == username and int(data_user[i][6]) >= 75000:
+            data_user[i][5] = 'pemain+'     #update role, pemain+ adalah golden account
+            data_user[i][6] = int(data_user[i][6]) - 75000    #update saldo
+            print("Akun", username, "telah diupgrade.")
+            success = True
+            break
+    if not success:
             
 #Tambahan prosedur untuk program utama
-def show_load():
-    user = input("Masukkan nama File User: ")
-    wahana = input("Masukkan nama File Daftar Wahana: ")
-    beli_tiket = input("Masukkan nama File Pembelian Tiket: ")
-    penggunaan_tiket = input("Masukkan nama File Penggunaan Tiket: ")
-    kepemilikan_tiket = input("Masukkan nama File Kepemilikan Tiket: ")
-    refund = input("Masukkan nama File Refund Tiket: ")
-    kritik = input("Masukkan nama File Kritik dan Saran: ")
-    print()
-    print('File perusahaan Willy Wangky’s Chocolate Factory telah di-load.')
-
 def show_menu_player():
     print()
     batas = '='*30
