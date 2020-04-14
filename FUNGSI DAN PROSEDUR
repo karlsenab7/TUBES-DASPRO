@@ -1,7 +1,5 @@
 #include<Python3.h>
 import csv
-import os
-from os import path
 
 dataBase = []
 
@@ -36,7 +34,7 @@ def column_length(arr_data):
     for i in arr_data[0]:
         panjang += 1
     return panjang
-    
+
     
 #Fungsi untuk menghitung panjang baris
 def row_length(array_data):    
@@ -59,7 +57,7 @@ def load(arrData, csv_file_path):
             for kolom in range(column_length(arrData)):
                 arrData[idx_baris][kolom] = temp_array[kolom]
 
-#fungsi untuk membuat file beserta dengan headernya, dipanggil hanya jika file belum ada
+#fungsi untuk membuat file beserta dengan headernya, dibuat hanya jika file belum ada
 def create_file(csv_file_path):
     with open(csv_file_path, 'w', newline="") as csv_file:
         writer = csv.writer(csv_file)
@@ -101,7 +99,17 @@ def cari_pemain(arr_data): #array yang dimasukkan adalah array user
         print("Username tidak ditemukan, periksa kembali penulisan username / username tidak ada pada sistem kami")
 
 
-def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
+#prosedur untuk menangani pembuatan file baru atau laod file yang sudah ada
+def start_file(arr_data, csv_file_name):
+    try:
+        load(arr_data, csv_file_name)
+    except FileNotFoundError:
+        create_file(csv_file_name)
+        load(arr_data, csv_file_name)
+
+
+#Prosedur beli tiket
+def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data_tiket):
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
     tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
     tahun_beli = int(tanggal[6:]) #dapatkan tahun pembelian
@@ -118,7 +126,6 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
             tahun_lahir_user = int(date_born[6:]) #dapatkan tahun lahir user
             break
             
-    
     #dapatkan data id Wahana, harga tiket, batasan umur dan batasan tinggi badan dari array berisi file wahana.csv
     for idx_baris in range (row_length(arr_data_wahana)):
         if arr_data_wahana[idx_baris][0] == ID_Wahana:
@@ -173,13 +180,62 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana):
         print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
 
     data_input = [username, tanggal, ID_Wahana, jumlah_tiket] #menampung data input user untuk dimasukkan ke array_data_beli
+    
     if beli_sukses == True:
+        arr_data_user[indeks][6] = (saldo - harga_tiket * jumlah_tiket) #update nilai saldo user pada array berisi saldo
         indeks_kosong = row_length(arr_data_beli) #dapatkan indeks yang masih kosong
-        for kolom in range (column_length(arr_data_beli)):
-            arr_data_beli[indeks_kosong][kolom] = data_input[kolom]
+        for kolom in range (column_length(arr_data_beli)): #isi array pembelian
+            arr_data_beli[indeks_kosong][kolom] = data_input[kolom] 
 
+        tiket_punya = False #False, artinya username belum punya tiket sebelumnya
+        for baris in range (row_length(arr_data_tiket)): #cek apakah username sudah memiliki tiket di ID Wahana tersebut atau belum
+            if arr_data_tiket[baris][0] == username and arr_data_tiket[baris][1] == ID_Wahana:
+                arr_data_tiket[baris][2] = int(arr_data_tiket[baris][2]) + jumlah_tiket #update jumlah tiket dimiliki
+                tiket_punya = True
+                break
+        if tiket_punya == False:
+            idx_empty = row_length(arr_data_tiket) #dapatkan indeks yang masih kosong untuk diisi data
+            arr_data_tiket[idx_empty][0] = username
+            arr_data_tiket[idx_empty][1] = ID_Wahana
+            arr_data_tiket[idx_empty][2] = jumlah_tiket
+            
+#Tambahan prosedur untuk program utama
+def show_load():
+    user = input("Masukkan nama File User: ")
+    wahana = input("Masukkan nama File Daftar Wahana: ")
+    beli_tiket = input("Masukkan nama File Pembelian Tiket: ")
+    penggunaan_tiket = input("Masukkan nama File Penggunaan Tiket: ")
+    kepemilikan_tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+    refund = input("Masukkan nama File Refund Tiket: ")
+    kritik = input("Masukkan nama File Kritik dan Saran: ")
+    print()
+    print('File perusahaan Willy Wangky’s Chocolate Factory telah di-load.')
 
-
+def show_menu_player():
+    print()
+    batas = '='*30
+    print(batas)
+    print("1.Cari Wahana                 ||")
+    print("2.Beli Tiket Wahana           ||")
+    print("3.Main ke Wahana              ||")
+    print("4.Refund Tiket                ||")
+    print("5.Kotak Kritik dan Saran      ||")
+    print("6.Exit                        ||")
+    print(batas)
+    
+def show_menu_admin():
+    print()
+    batas = '='*30
+    print("1.SignUp pemain")
+    print('2.Cari pemain')
+    print('3.Cari Wahana')
+    print('4.Lihat Daftar Kritik dan Saran')
+    print('5.Tambah Wahana Baru')
+    print('6.TopUp saldo pemain')
+    print('7.Lihat Riwayat Penggunaan Wahana')
+    print('8.Lihat jumlah tiket pemain')
+    print('9.Exit')
+    batas = '='*30
 
 
 #Endof Bagian Jafar
