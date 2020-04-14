@@ -1,31 +1,6 @@
 #include<Python3.h>
 import csv
 
-dataBase = []
-
-def setDatabase(fileName):
-	file = open(fileName, "r")
-
-	for lines in file:
-		line = lines[:len(lines)-1]     #menghilangkan newLine "\n" dari setiap baris
-		line += ","     #Pembatas data terakhir.
-
-		dataLine = []
-		data = ""
-		for i in range(len(line)):
-			if (line[i] != ","):
-				data += line[i]
-			else:
-				dataLine.append(data)
-				data = ""
-
-		dataBase.append(dataLine)
-
-#Load file User
-setDatabase("User.csv")
-
-
-
 
 # Fungsi Jafar
 #Fungsi menghitung panjang kolom / menghitung banyaknya kolom
