@@ -336,7 +336,7 @@ def sign_up(arr_user) :
     while (True) :
         new_username = input("Masukkan username pemain: ")
         found = False
-        for baris in range (len(user_data)) :
+        for baris in range (row_length(user_data)) :
             if (user_data[baris][3] == username) :
                 found = True
                 break
@@ -346,39 +346,43 @@ def sign_up(arr_user) :
             print ("username sudah dipakai, silahkan masukkan username lainnya!")
 
     password = input("Masukkan password pemain: ")
-    role = "Pemain"
+    role = "pemain"
     saldo = 0
+    #Mencari indeks array kosong
+    empty_index = row_length (arr_user)
     #Terminasi
     new_data = [nama, tgl_lahir, tinggi_badan, new_username, password, role, saldo]
-    arr_user.append(new_data)
-    print("Selamat menjadi pemain, Willy Wangky. Selamat bermain.")
+    arr_user[empty_index] = new_data
+    print("Selamat menjadi pemain, "+str(nama)+". Selamat bermain.")
     return()
 
 #fungsi refund tiket (pengembalian dana sebesar 75% dari harga tiket yang direfund)
-
-def refund(username, tanggal, arr_tiket, arr_wahana, arr_user, arr_refund):
+def refund(username, arr_tiket, arr_wahana, arr_user, arr_refund):
     #Asumsi ID_wahana selalu valid
     ID_wahana = input("Masukkan ID wahana: ")
+    tanggal = int("Masukkan Tanggal Refund (DD/MM/YYYY): ")
     amount_ticket = int(input("Jumlah tiket yang di-refund: "))
 
     #Validasi ketersediaan tiket user
     found = False
-    for i in range (len(arr_tiket)) :
+    for i in range (row_length(arr_tiket)) :
         if ((arr_tiket[i][0] == username) and (arr_tiket[i][1] == ID_wahana)) :
             if (int(arr_tiket[i][2]) >= amount_ticket) :
                 found = True
                 index_tiket = i
                 break
     #Mencari indeks pada array wahana
-    for i in range (len(arr_wahana)) :
+    for i in range (row_length(arr_wahana)) :
         if (arr_wahana[i][0] == ID_wahana) :
             index_wahana = i
             break
     #Mencari indeks pada array user
-    for i in range (len(arr_user)) :
+    for i in range (row_length(arr_user)) :
         if (arr_user[i][3] == username) :
             index_user = i
             break
+    #Mencari indeks pada array yang masih kosong
+    empty_index = row_length (arr_user)
     #Terminasi
     if (not found) :
         print("Anda tidak memiliki tiket terkait.")
@@ -386,12 +390,16 @@ def refund(username, tanggal, arr_tiket, arr_wahana, arr_user, arr_refund):
         #Menghitung sisa tiket
         arr_tiket[index_tiket][2] = int(arr_tiket[index_tiket][2]) - amount_ticket
         #Menghitung saldo akhir
-        arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+        if (arr_user[index_user][5] == "pemain+") :
+        arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.5*0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+        else : #user bukan gold account
+            arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.75*amount_ticket*int(arr_wahana[index_wahana][2])
         #Mengembalikan input pada array global
         new_data = [username,tanggal,ID_wahana,amount_ticket]
-        arr_refund.append(new_data)
+        arr_refund[empty_index] = new_data
         print("Uang refund sudah kami berikan pada akun Anda.")
     return()
+
 
 #prosedur kritik dan saran
 def kritiksaran(username ,arr_kritiksaran) :
@@ -399,24 +407,36 @@ def kritiksaran(username ,arr_kritiksaran) :
     ID_wahana = input("Masukkan ID Wahana :")
     tanggal = input("Masukkan tanggal pelaporan (DD/MM/YYYY): ")
     isi_kritik = input("Kritik/saran Anda: ")
+    #Mencari indeks pada array yg masih kosong
+    empty_index = row_length (arr_user)
     #Terminasi
     new_data = [username, tanggal, ID_wahana, isi_kritik]
-    arr_kritiksaran.append(new_data)
+    arr_kritiksaran[empty_index] = new_data
     return()
     
 #fungsi exit (keluar dari program)    
-def exit(arr_user, arr_pembelian, arr_penggunaan, arr_tiket, arr_refund, arr_kritiksaran, arr_wahana) :
+def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_refund, arr_kritiksaran) :
+	#Apakah file mau disimpan?
 	save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
-	if (save == "Y") :
-		save_file(arr_user)
-		save_file(arr_pembelian)
-		save_file(arr_penggunaan)
-		save_file(arr_tiket)
-		save_file(arr_refund)
-		save_file(arr_kritiksaran)
-		save_file(arr_wahana)
-	return(True)
+	if (save == "Y") : #Menyimpan file
+		user = input("Masukkan nama File User: ")
+		save_file(arr_user, str(user))
+		wahana = input("Masukkan nama File Daftar wahana: ")
+		save_file(arr_wahana, str(wahana))
+		pembelian = input("Masukkan nama File Pembelian Tiket: ")
+		save_file(arr_pembelian, str(pembelian))
+		penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+		save_file(arr_penggunaan, str(penggunaan))
+		tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+		save_file(arr_tiket, str(tiket))
+		refund = input("Masukkan nama File Refund Tiket: ")
+		save_file(arr_refund, str(refund))
+		kritiksaran = input("Masukkan nama File Kritik dan Saran: ")
+		save_file(arr_kritiksaran, str(kritiksaran))
+		
 
+		print("Data berhasil disimpan!")
+	return(True)
 
 
 
