@@ -252,11 +252,10 @@ def show_menu_admin():
 #Bagian Yudi
 
 #Prosedur Penggunaan Tiket
-def Use_Tiket (_username):
+def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 
-	nKepemilikanTiket = row_length(data_kepemilikan_tiket)
-
-	nPenggunaanWahana = row_length(data_pengunaan_tiket)
+	nKepemilikanTiket = row_length(_data_kepemilikan_tiket)
+	nPenggunaanWahana = row_length(_data_penggunaan_wahana)
 
 	dataPenggunaan = ["" for i in range(4)]
 	valid = False
@@ -267,8 +266,8 @@ def Use_Tiket (_username):
 		tickets = input("Jumlah tiket yang digunakan : ")
 
 		for i in range(nKepemilikanTiket):
-			if (data_kepemilikan_tiket[i][0] == _username):
-				if (data_kepemilikan_tiket[i][1] == ID and data_kepemilikan_tiket[i][2] >= tickets and tickets != 0):
+			if (_data_kepemilikan_tiket[i][0] == _username):
+				if (_data_kepemilikan_tiket[i][1] == ID and _data_kepemilikan_tiket[i][2] >= tickets and tickets != 0):
 					valid = True		
 					idx = i	
 
@@ -284,9 +283,9 @@ def Use_Tiket (_username):
 		dataPenggunaan[2] = ID
 		dataPenggunaan[3] = tickets
 
-		data_kepemilikan_tiket[idx][2] = str(int(data_kepemilikan_tiket[idx][2]) - int(tickets))	#Pengurangan tiket
+		_data_kepemilikan_tiket[idx][2] = str(int(_data_kepemilikan_tiket[idx][2]) - int(tickets))	#Pengurangan tiket
 	
-		data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
+		_data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
 
 
 
