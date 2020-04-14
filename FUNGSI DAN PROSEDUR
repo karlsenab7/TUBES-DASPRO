@@ -254,20 +254,9 @@ def show_menu_admin():
 #Prosedur Penggunaan Tiket
 def Use_Tiket (_username):
 
-	nKepemilikanTiket = 0		#Banyak data pada data_kepemilikan_tiket
-	for line in data_kepemilikan_tiket :
-		if (line[0] != ""):
-			nKepemilikanTiket += 1
-		else:
-			break
+	nKepemilikanTiket = row_length(data_kepemilikan_tiket)
 
-	nPenggunaanWahana = 0		#Banyak data pada data_penggunaan_wahana
-	for line in data_penggunaan_wahana :
-		if (line[0] != ""):
-			nKepemilikanTiket += 1
-		else:
-			break
-
+	nPenggunaanWahana = row_length(data_pengunaan_tiket)
 
 	dataPenggunaan = ["" for i in range(4)]
 	valid = False
