@@ -295,6 +295,111 @@ def Tambah_Wahana(_data_wahana):
 		print("\nPenambahan tidak dapat dilakukkan, database wahana telah penuh!")
 
 
+#Prosedur untuk menambahkan saldo dari user. 
+#Parameter : username user, dan array database user
+def Top_Up (_data_user):
+#Semua input dianggap valid
+		
+	_username = input("Masukkan username : ")
+	saldo = int(input("Masukkan saldo yang di-top up : "))
+
+	nRow = row_length(_data_user)
+	idx = -1
+	for i in range(nRow):
+		if (_data_user[i][3] == _username):		#username user berada pada index 3
+			idx = i
+			break
+
+	if (idx != -1):
+		_data_user[idx][6] = str(int(_data_user[idx][6]) + saldo)	#saldo user berada pada index 6
+		print("\nTop up berhasil. Saldo", _data_user[idx][0], "bertambah menjadi", _data_user[idx][6])
+
+
+#Melihat jumlah tiket User. 
+#Parameter : array data kepemilikan tiket dan data wahana
+def Lihat_Tiket(_data_kepimilikan_tiket, _data_wahana):
+#Semua input dianggap valid
+	
+	_username = input("Masukkan username : ")
+	print("Riwayat : ")	
+	
+	nRowWahana = row_length(_data_wahana)
+	nRowTiket = row_length(_data_kepimilikan_tiket)
+
+	nTiket = 0
+	#Mencari tiket wahana yang dimiliki user
+	for i in range(nRowTiket):
+		if (_data_kepimilikan_tiket[i][0] == _username):	#Username terletak pada index 0 pada data kepemilikan tiket
+
+			idWahana = _data_kepimilikan_tiket[i][1]		#ID wahana
+			jml = _data_kepimilikan_tiket[i][2]				#Jumlah tiket yang dimiliki
+
+			for j in range(nRowWahana):
+				if (_data_wahana[j][0] == idWahana):		#ID wahana terletak pada index 0 pada data wahana
+					namaWahana = _data_wahana[j][1]
+					break
+
+			print(idWahana + " | " + namaWahana + " | " + jml)
+			nTiket += 1
+
+	if (nTiket == 0):
+		print("Maaf, Anda belum pernah membeli tiket!")
+
+
+
+
+#Melihat 3 wahana dengan total pembelian tiket ter banyak. 
+#Parameter : array data pembelian tiket
+def Best_Wahana (_data_pembelian_tiket, _data_wahana):
+	
+	nRowWahana = row_length(_data_wahana)
+	nRowPembelian = row_length(_data_pembelian_tiket)
+
+	dataPenjualan = [["" for j in range(3)] for i in range(nRowWahana)] 			#menampung Id wahana, nama wahana, dan jumlah tiket yang terjual
+
+	#Mengambil total penjualan setiap wahana dari riwayat pembelian tiket
+	for i in range(nRowWahana):
+
+		idWahana = _data_wahana[i][0]			#ID wahana
+		namaWahana = _data_wahana[i][1] 		#Nama wahana
+		jml = 0									#Jumlah tiker terjual
+
+		for j in range(nRowPembelian):
+
+			if(_data_pembelian_tiket[j][2] == idWahana):
+				jml += int(_data_pembelian_tiket[j][3])
+
+		dataPenjualan[i][0] = idWahana
+		dataPenjualan[i][1] = namaWahana
+		dataPenjualan[i][2] = str(jml)
+
+
+	if (nRowPembelian != 0):
+		#Sorting data penjualan tiket wahanan
+		for i in range(nRowWahana):
+
+			maks = int(dataPenjualan[i][2])
+			idx = i
+			for j in range(i+1, nRowWahana):
+
+				if (maks < int(dataPenjualan[j][2])):
+					maks = int(dataPenjualan[j][2])
+					idx = j
+
+			tmp = dataPenjualan[i]
+			dataPenjualan[i] = dataPenjualan[idx]
+			dataPenjualan[idx] = tmp
+
+
+	if (nRowPembelian != 0):
+		#Menampilkan 3 data penjualan tertinggi
+		for i in range(3):
+			print(str(i+1) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
+	else:
+		print("Maaf, belum ada tiket yang terjual!")
+
+
+
 #End of bagian Yudi
 
 
