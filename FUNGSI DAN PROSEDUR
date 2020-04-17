@@ -272,7 +272,27 @@ def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 		_data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
 
 
+#Prosedur menambahkan wahana baru. 
+#Parameter : array database wahana
+def Tambah_Wahana(_data_wahana):
+#Semua input dianggap valid
+	print("Masukkan Informasi Wahana yang ditambahkan : ")
 
+	nRow = row_length(_data_wahana)
+
+	newWahana = ["" for i in range(5)] 		#Banyak kolom data wahana : 5
+
+	newWahana[0] = input("Masukkan ID Wahana : ")		#ID wahana
+	newWahana[1] = input("Masukkan Nama Wahana : ")		#Nama wahana
+	newWahana[2] = input("Masukkan Harga Tiket : ")		#Harga tiket wahana
+	newWahana[3] = input("Batasan umur : ")				#Umur
+	newWahana[4] = input("Batasan tinggi badan : ")		#Tinggi
+
+	try:
+		_data_wahana[nRow] = newWahana
+		print("\nInfo wahana telah ditambahkan!")
+	except IndexError :		#jika array database wahana sudah penuh
+		print("\nPenambahan tidak dapat dilakukkan, database wahana telah penuh!")
 
 
 #End of bagian Yudi
