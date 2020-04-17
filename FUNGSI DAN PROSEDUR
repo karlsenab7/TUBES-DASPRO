@@ -51,6 +51,8 @@ def create_file(csv_file_path):
             writer.writerow(['Username', 'Tanggal_Refund', 'ID_Wahana', 'Jumlah_Tiket'])
         elif csv_file_path == 'kritiksaran.csv':
             writer.writerow(['Username', 'Tanggal_Kritik', 'ID_Wahana', 'Isi_Kritik'])
+	elif csv_file_path == 'kehilangan_tiket.csv':
+	    writer.writerow(['Username', 'Tanggal_Kehilangan', 'ID_Wahana', 'Jumlah_Tiket_Hilang'])
 
 #fungsi untuk memasukkan array ke csv
 def save_file(arr_data, csv_file_path):
