@@ -11,6 +11,7 @@ data_penggunaan_wahana =[['' for kolom in range(4)] for baris in range(1001)] #d
 data_kepemilikan_tiket =[['' for kolom in range(3)] for baris in range (1001)] #dapat menampung 1000 data kepemilikan tiket user
 data_refund = [['' for kolom in range (4)] for baris in range(501)] #dapat menampung sampai 500 data transaksi refund
 data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menampung data kritik dan saran sebanyak 200 data 
+data_kehilangan_tiket = [['' for kolom in range (4)] for baris in range (1001)] #dapat menampung 1000 data kehilangan tiket
 
 
 #load semua data
@@ -21,6 +22,7 @@ file_penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
 file_tiket = input("Masukkan nama File Kepemilikan Tiket: ")
 file_refund = input("Masukkan nama File Refund Tiket: ")
 file_kritik = input("Masukkan nama File Kritik dan Saran: ")
+file_kehilangan_tiket = input("Masukkan nama File Laporan Kehilangan Tiket: ")
 
 fungsi.start_file(data_user,file_user)
 fungsi.start_file(data_wahana,file_wahana)
