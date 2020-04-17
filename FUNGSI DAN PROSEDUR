@@ -419,7 +419,6 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 
 #Bagian Karlsen
 
-#fungsi login
 username = input("Please enter your username: ")
 password = input("Please enter your password: ")
 
@@ -428,15 +427,15 @@ def login(username, password):
     found = False
     for i in range(0, 7):
         if array_data[i][3] == username and array_data[i][4] == password:
-            print("You are logged in")
+            print("Selamat bersenang-senang, Willy Wangky!")
             found = True
             return True
     if found = False:
-        print("Wrong username or password")
+        print("Ups, password salah atau kamu tidak terdaftar dalam sistem kami. Silakan coba lagi!")
         return False
 	
 	
-def cari_wahana(arr_data_wahana):
+def cari_wahana(data_wahana):
     print("Jenis batasan umur: ")
     print("1. Anak-anak (<17 tahun")
     print("2. Dewasa (>=17 tahun)")
@@ -465,61 +464,97 @@ def cari_wahana(arr_data_wahana):
                     print("Hasil pencarian: ")
                     found = False
                     if (umur_pemain == "1") and (tinggi_badan == "1"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "anak-anak") and (arr_data_wahana[baris][4] == ">= 170 cm"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">= 170 cm"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.")                                
 
                     elif (umur_pemain == "1") and (tinggi_badan == "2"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "anak-anak") and (arr_data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
                                 
                     elif (umur_pemain == "2") and (tinggi_badan == "1"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "dewasa") and (arr_data_wahana[baris][4] == ">= 170 cm"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">= 170 cm"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
 
                     elif (umur_pemain == "2") and (tinggi_badan == "2"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "dewasa") and (arr_data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
 
                     elif (umur_pemain == "3") and (tinggi_badan == "1"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "semua umur") and (arr_data_wahana[baris][4] == ">= 170 cm"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">= 170 cm"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
 
                     elif (umur_pemain == "3") and (tinggi_badan == "2"):
-                        for baris in range (row_length(arr_data_wahana)):
-                            if (arr_data_wahana[baris][3] == "semua umur") and (arr_data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(arr_data_wahana[baris][0]), " | " , str(arr_data_wahana[baris][1]), " | " , str(arr_data_wahana[baris][2]))
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
-                            elif (baris == (row_length(arr_data_wahana))) and (found == False):
+                            elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
 
                 else:       #input diluar pilihan 1 dan 2
                     print("Batasan tinggi badan tidak valid!")
         else:       #input diluar pilihan 1, 2, dan 3
             print("Batasan umur tidak valid!")
+	    	    
 	    
-	    
-	    
-	    
+def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
+
+    username = input("Masukkan username: ")
+    tanggal_kehilangan = input("Tanggal kehilangan tiket: ")
+    id_wahana = input("ID wahana: ")
+    jumlah_tiket_hilang = input("Jumlah tiket yang dihilangkan: ")
+
+
+
+    with open('kehilangan _tiket.csv', 'w') as file_kehilangan_tiket:
+        csv_writer = csv.writer(file_kehilangan_tiket, delimiter='/t')
+
+        for baris in range ((row_length(data_kehilangan_tiket))+1):
+            if baris < ((row_length(data_kehilangan_tiket))+1):
+                data_kehilangan_tiket[baris][0] = file_kehilangan_tiket[baris][0]
+                data_kehilangan_tiket[baris][1] = file_kehilangan_tiket[baris][1]
+                data_kehilangan_tiket[baris][2] = file_kehilangan_tiket[baris][2]
+                data_kehilangan_tiket[baris][3] = file_kehilangan_tiket[baris][3]
+            
+            elif baris == ((row_length(data_kehilangan_tiket))+1):
+                data_kehilangan_tiket[baris][0] = username
+                data_kehilangan_tiket[baris][1] = tanggal_kehilangan
+                data_kehilangan_tiket[baris][2] = id_wahana
+                data_kehilangan_tiket[baris][3] = jumlah_tiket_hilang
+            #array data_kehilangan_tiket sudah terupdate
+        
+        for baris in data_kehilangan_tiket:
+            csv_writer.writerow(baris)
+
+    #code untuk mengurangi jumlah tiket yang dimiliki oleh pemain
+
+        for baris in (row_length(data_kepemilikan_tiket)):
+            if (data_kepemilikan_tiket[baris][0] == username) and (data_kepemilikan_tiket[baris][1] == id_wahana):
+                data_kepemilikan_tiket[baris][2] = data_kepemilikan_tiket[baris][2] - jumlah_tiket_hilang
+                break
+
+    
+    print("Laporan kehilangan tiket Anda telah direkam.")	    
 	    
 	    
 def riwayat_wahana(data_penggunaan_wahana):
