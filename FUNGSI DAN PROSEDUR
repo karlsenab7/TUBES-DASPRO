@@ -514,7 +514,19 @@ def cari_wahana(arr_data_wahana):
                     print("Batasan tinggi badan tidak valid!")
         else:       #input diluar pilihan 1, 2, dan 3
             print("Batasan umur tidak valid!")
-
+	    
+	    
+	    
+	    
+	    
+	    
+def riwayat_wahana(data_penggunaan_wahana):
+    ID_wahana = input("Masukkan ID Wahana: ")
+    #diasumsikan ID Wahana valid
+    print("Riwayat:")
+    for baris in range(row_lenght(data_penggunaan_wahana)):
+        if data_penggunaan_wahana[baris][2] == ID_wahana:
+            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
 
 
 
