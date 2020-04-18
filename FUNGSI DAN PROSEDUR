@@ -554,7 +554,7 @@ def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
 
 
 
-    with open('kehilangan _tiket.csv', 'w') as file_kehilangan_tiket:
+    with open('kehilangan_tiket.csv', 'w') as file_kehilangan_tiket:
         csv_writer = csv.writer(file_kehilangan_tiket, delimiter='/t')
 
         for baris in range ((row_length(data_kehilangan_tiket))+1):
