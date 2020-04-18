@@ -1,0 +1,704 @@
+import csv
+
+
+
+#F01
+#Prosedur untuk memasukan data csv ke array
+def load(arrData, csv_file_path): 
+    with open(csv_file_path, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        for row in csv_reader:
+            temp_array = row #temp_array adalah satu array yang berisi satu baris data pada csv
+            idx_baris = row_length(arrData) #ambil indeks yang masih kosong
+            for kolom in range(column_length(arrData)):
+                arrData[idx_baris][kolom] = temp_array[kolom]
+
+#Prosedur untuk membuat file beserta dengan headernya, dibuat hanya jika file belum ada
+def create_file(csv_file_path):
+    with open(csv_file_path, 'w', newline="") as csv_file:
+        writer = csv.writer(csv_file)
+        if csv_file_path == ('user.csv'):
+            writer.writerow(['Nama', 'Tanggal_Lahir','Tinggi_Badan', 'Username', 'Password', 'Role', 'Saldo'])
+            writer.writerow(['admin', '00/00/0000', '0', 'admin', 'password', 'admin', '0']) #ini akun untuk admin
+        elif csv_file_path == 'wahana.csv':
+            data = [['SEM001', 'Bianglala', '50000', 'semua umur', 'tanpa batasan'],
+                    ['SEM002', 'Poci-Poci', '40000', 'semua umur', 'tanpa batasan'],
+                    ['DEW001', 'Kora-Kora', '40000', 'dewasa', '>=170'],
+                    ['DEW002', 'Hysteria', '50000', 'dewasa', '>=170'],
+                    ['DEW003', 'Kicir-Kicir', '40000', 'dewasa', '>=170'],
+                    ['DEW004', 'Tornado', '40000', 'dewasa', '>=170'],
+                    ['SEM003', 'Istana Boneka', '35000', 'semua umur', 'tanpa batasan'],
+                    ['ANK001', 'Happy Feet', '35000', 'anak-anak', 'tanpa batasan'],
+                    ['DEW005', 'Arung Jeram', '50000', 'dewasa', '>=170'],
+                    ['SEM004', 'Rumah Miring', '40000', 'semua umur', 'tanpa batasan'],
+                    ['ANK002', 'Dunia Kartun', '40000', 'anak-anak', 'tanpa batasan']]
+            writer.writerow(['ID_Wahana', 'Nama_Wahana','Harga_Tiket', 'Batasan_Umur', 'Batasan_Tinggi'])
+            for i in range(11): #tulis data awal wahana yang tersedia
+                writer.writerow(data[i])
+        elif csv_file_path == 'pembelian.csv':
+            writer.writerow(['Username', 'Tanggal_Pembelian', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'penggunaan.csv':
+            writer.writerow(['Username', 'Tanggal_Penggunaan', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'tiket.csv':
+            writer.writerow(['Username', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'refund.csv':
+            writer.writerow(['Username', 'Tanggal_Refund', 'ID_Wahana', 'Jumlah_Tiket'])
+        elif csv_file_path == 'kritiksaran.csv':
+            writer.writerow(['Username', 'Tanggal_Kritik', 'ID_Wahana', 'Isi_Kritik'])
+
+def start_file(arr_data, csv_file_name):
+    try:
+        load(arr_data, csv_file_name)
+    except FileNotFoundError:
+        create_file(csv_file_name)
+        load(arr_data, csv_file_name)
+
+
+#F02
+def login(username,password, array_data):
+    found = False
+    for i in range(0, 7):
+        if array_data[i][3] == username and array_data[i][4] == password:
+            print("Selamat bersenang-senang, Willy Wangky!")
+            found = True
+            return True
+    if not found:
+        print("Ups, password salah atau kamu tidak terdaftar dalam sistem kami. Silakan coba lagi!")
+        return False
+
+#F03
+#Prosedur untuk memasukkan array ke csv
+def save_file(arr_data, csv_file_path):
+    with open(csv_file_path, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for i in range(row_length(arr_data)):
+            writer.writerow(arr_data[i])
+
+#F04
+#prosedur untuk sign_up user baru oleh admin
+def sign_up(username,arr_user) :
+    nama = input("Masukkan nama pemain: ")
+    tgl_lahir = input("Masukkan tanggal lahir pemain (DD/MM/YYYY): ")
+    tinggi_badan = int(input("Masukkan tinggi badan pemain (cm): "))
+    #Vallidasi username
+    while (True) :
+        new_username = input("Masukkan username pemain: ")
+        found = False
+        for baris in range (row_length(arr_user)) :
+            if (arr_user[baris][3] == new_username) :
+                found = True
+                break
+        if (not found) :
+            break
+        else :
+            print ("username sudah dipakai, silahkan masukkan username lainnya!")
+
+    password = input("Masukkan password pemain: ")
+    role = "pemain"
+    saldo = 0
+    #Mencari indeks array kosong
+    empty_index = row_length (arr_user)
+    #Terminasi
+    new_data = [nama, tgl_lahir, tinggi_badan, new_username, password, role, saldo]
+    arr_user[empty_index] = new_data
+    print("Selamat menjadi pemain, "+str(nama)+". Selamat bermain.")
+    return()
+
+#F05
+def cari_pemain(arr_data): #array yang dimasukkan adalah array user
+    found = False
+    pemain = input("Masukkan username : ")
+    for baris in range (row_length(arr_data)):
+        if arr_data[baris][3] == pemain:
+            print('Nama Pemain :', arr_data[baris][0])
+            print('Tinggi Pemain :', arr_data[baris][2], 'cm')
+            print("Tanggal lahir pemain :", arr_data[baris][1])
+            found = True
+            break
+    if not found:
+        print("Username tidak ditemukan, periksa kembali penulisan username / username tidak ada pada sistem kami")
+
+
+#F06
+def cari_wahana(data_wahana):
+    print("Jenis batasan umur: ")
+    print("1. Anak-anak (<=12 tahun)")
+    print("2. Dewasa (>=18 tahun)")
+    print("3. Semua umur")
+    print()
+    print("Jenis batasan tinggi badan: ")
+    print("1. Lebih dari sama dengan 170 cm")
+    print("2. Tanpa batasan")
+    print()
+    
+    cek_valid_umur = False
+    cek_valid_tinggi = False
+
+    while cek_valid_umur == False:
+        umur_pemain = input("Batasan umur pemain: (masukan angka pilihan)")
+
+        if (umur_pemain == "1") or (umur_pemain == "2") or (umur_pemain == "3"):
+            cek_valid_umur = True
+            while cek_valid_tinggi == False:  
+                tinggi_badan = input("Batasan tinggi badan: (masukan angka pilihan)")
+                if (tinggi_badan == "1") or (tinggi_badan == "2"):
+                    cek_valid_tinggi = True
+                    print()     #hanya sebagai enter
+                    #pada bagian ini batasan umur dan tinggi badan sudah valid
+                    
+                    print("Hasil pencarian: ")
+                    found = False
+                    if (umur_pemain == "1") and (tinggi_badan == "1"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">=170"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.")                                
+
+                    elif (umur_pemain == "1") and (tinggi_badan == "2"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp',str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
+                                
+                    elif (umur_pemain == "2") and (tinggi_badan == "1"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">=170"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
+
+                    elif (umur_pemain == "2") and (tinggi_badan == "2"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
+
+                    elif (umur_pemain == "3") and (tinggi_badan == "1"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">=170"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp',str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
+
+                    elif (umur_pemain == "3") and (tinggi_badan == "2"):
+                        for baris in range (row_length(data_wahana)):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == "tanpa batasan"):
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " ,'Rp', str(data_wahana[baris][2]))
+                                found = True
+                            elif (baris == (row_length(data_wahana))) and (found == False):
+                                print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
+
+                else:       #input diluar pilihan 1 dan 2
+                    print("Batasan tinggi badan tidak valid!")
+        else:       #input diluar pilihan 1, 2, dan 3
+            print("Batasan umur tidak valid!")
+
+#F07
+def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data_tiket):
+    ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
+    tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
+    jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
+
+    tahun_beli = int(tanggal[6:]) #dapatkan tahun pembelian
+    #dapatkan tanggal lahir,tinggi_badan, dan saldo username yang diakses dari array yang berisi file user.csv
+    for idx_baris in range(row_length(arr_data_user)):
+        if arr_data_user[idx_baris][3] == username:
+            indeks = idx_baris
+            Tinggi_Badan = int(arr_data_user[idx_baris][2])
+            saldo = int(arr_data_user[idx_baris][6])
+            role_user = arr_data_user[idx_baris][5]
+            date_born = arr_data_user[idx_baris][1] #tanggal lahir user
+            tahun_lahir_user = int(date_born[6:]) #dapatkan tahun lahir user
+            break
+            
+    #dapatkan data id Wahana, harga tiket, batasan umur dan batasan tinggi badan dari array berisi file wahana.csv
+    for idx_baris in range (row_length(arr_data_wahana)):
+        if arr_data_wahana[idx_baris][0] == ID_Wahana:
+            harga_tiket = int(arr_data_wahana[idx_baris][2]) #dapatkan dalam bentuk integer
+            batasan_umur = arr_data_wahana[idx_baris][3]
+            batasan_tinggi = arr_data_wahana[idx_baris][4]
+            break
+
+    #asumsi umur yang mendekati umur tersebut dibulatkan
+    #misal usia anak-anak 12 tahun, tahun sekarang 2020, tahun lahir user 2008, maka akan digenapkan menjadi 12 tahun meskipun sebenarnya ia belum ulang tahun pada tahun tersebut
+    umur_user = tahun_beli - tahun_lahir_user
+    total_harga = (harga_tiket * jumlah_tiket)
+
+    #jika memiliki akun gold harga tiket setengahnya
+    if role_user == 'pemain+':
+        total_harga = (0.5 * harga_tiket) * jumlah_tiket
+
+    beli_sukses = False #tanda berhasil diproses atau tidak
+    if batasan_umur == 'anak-anak' and umur_user <= 12:
+        #pada wahana anak-anak tidak ada batas tinggi badan
+        if saldo >= total_harga:
+            beli_sukses = True
+            print("Selamat bersenang-senang di Almond’s Charm!", username)
+        else: #saldo tidak cukup
+            print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
+    elif batasan_umur == 'dewasa' and umur_user >= 18:
+        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
+            if saldo >= total_harga:
+                beli_sukses = True
+                print("Selamat bersenang-senang di Almond’s Charm!", username)
+            else: #saldo kurang
+                print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
+        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
+            print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
+        elif batasan_tinggi == 'tanpa batasan':
+            if saldo >= total_harga:
+                beli_sukses = True
+                print("Selamat bersenang-senang di Almond’s Charm!", username)
+            else: #saldo kurang
+                print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
+    elif batasan_umur == 'semua umur':
+        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
+            if saldo >= total_harga:
+                beli_sukses = True
+                print("Selamat bersenang-senang di Almond’s Charm!", username)
+            else: #saldo kurang
+                print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
+        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
+            print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
+        elif batasan_tinggi == 'tanpa batasan':
+            if saldo >= total_harga:
+                beli_sukses = True
+                print("Selamat bersenang-senang di Almond’s Charm!", username)
+            else: #saldo kurang
+                print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
+    else: #tidak ada persyaratan yang memenuhi
+        print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
+
+    data_input = [username, tanggal, ID_Wahana, jumlah_tiket] #menampung data input user untuk dimasukkan ke array_data_beli
+    
+
+    if beli_sukses == True:
+        arr_data_user[indeks][6] = (saldo - total_harga) #update nilai saldo user pada array berisi saldo
+        indeks_kosong = row_length(arr_data_beli) #dapatkan indeks yang masih kosong
+        arr_data_beli[indeks_kosong] = data_input
+
+        tiket_punya = False #False, artinya username belum punya tiket sebelumnya
+        for baris in range (row_length(arr_data_tiket)): #cek apakah username sudah memiliki tiket di ID Wahana tersebut atau belum
+            if arr_data_tiket[baris][0] == username and arr_data_tiket[baris][1] == ID_Wahana:
+                arr_data_tiket[baris][2] = int(arr_data_tiket[baris][2]) + jumlah_tiket #update jumlah tiket dimiliki
+                tiket_punya = True
+                break
+        if tiket_punya == False:
+            data_tiket = [username, ID_Wahana, jumlah_tiket]
+            idx_empty = row_length(arr_data_tiket) #dapatkan indeks yang masih kosong untuk diisi data
+            arr_data_tiket[idx_empty] = data_tiket
+
+
+#F08
+#Prosedur Penggunaan Tiket
+def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
+
+	nKepemilikanTiket = row_length(_data_kepemilikan_tiket)
+	nPenggunaanWahana = row_length(_data_penggunaan_wahana)
+
+	dataPenggunaan = ["" for i in range(4)]
+	valid = False
+	while(not valid and nKepemilikanTiket != 0):
+
+		ID = input("Masukkan ID wahana : ")
+		date = input("Masukkan tanggal hari ini : ")
+		tickets = input("Jumlah tiket yang digunakan : ")
+
+		for i in range(nKepemilikanTiket):
+			if (_data_kepemilikan_tiket[i][0] == _username):
+				if (_data_kepemilikan_tiket[i][1] == ID and int(_data_kepemilikan_tiket[i][2]) >= tickets and tickets != 0):
+					valid = True		
+					idx = i	
+
+		if (not valid):
+			print("\nTiket Anda tidak valid dalam sistem kami")
+		else:
+			print("\nTerima kasih telah bermain.")
+
+
+	if (valid):
+		dataPenggunaan[0] = _username
+		dataPenggunaan[1] = date
+		dataPenggunaan[2] = ID
+		dataPenggunaan[3] = tickets
+
+		_data_kepemilikan_tiket[idx][2] = str(int(_data_kepemilikan_tiket[idx][2]) - int(tickets))	#Pengurangan tiket	
+		_data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
+    
+#F09
+#Prosedur refund tiket (pengembalian dana sebesar 75% dari harga tiket yang direfund)
+def refund(username, arr_tiket, arr_wahana, arr_user, arr_refund):
+    #Asumsi ID_wahana selalu valid
+    ID_wahana = input("Masukkan ID wahana: ")
+    tanggal = input("Masukkan Tanggal Refund (DD/MM/YYYY): ")
+    amount_ticket = int(input("Jumlah tiket yang di-refund: "))
+
+    #Validasi ketersediaan tiket user
+    found = False
+    for i in range (row_length(arr_tiket)) :
+        if ((arr_tiket[i][0] == username) and (arr_tiket[i][1] == ID_wahana)) :
+            if (int(arr_tiket[i][2]) >= amount_ticket) :
+                found = True
+                index_tiket = i
+                break
+    #Mencari indeks pada array wahana
+    for i in range (row_length(arr_wahana)) :
+        if (arr_wahana[i][0] == ID_wahana) :
+            index_wahana = i
+            break
+    #Mencari indeks pada array user
+    for i in range (row_length(arr_user)) :
+        if (arr_user[i][3] == username) :
+            index_user = i
+            break
+    #Mencari indeks pada array yang masih kosong
+    empty_index = row_length (arr_user)
+    #Terminasi
+    if (not found) :
+        print("Anda tidak memiliki tiket terkait.")
+    else : #found
+        #Menghitung sisa tiket
+        arr_tiket[index_tiket][2] = int(arr_tiket[index_tiket][2]) - amount_ticket
+        #Menghitung saldo akhir
+        if (arr_user[index_user][5] == "pemain+") :
+            arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.5*0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+        else : #user bukan gold account
+            arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+        #Mengembalikan input pada array global
+        new_data = [username,tanggal,ID_wahana,amount_ticket]
+        arr_refund[empty_index] = new_data
+        print("Uang refund sudah kami berikan pada akun Anda.")
+    return()
+
+#F10
+#prosedur kritik dan saran
+def kritiksaran(username ,arr_kritiksaran) :
+    #Asumsi ID Wahana, tanggal pelaporan selalu valid
+    ID_wahana = input("Masukkan ID Wahana :")
+    tanggal = input("Masukkan tanggal pelaporan (DD/MM/YYYY): ")
+    isi_kritik = input("Kritik/saran Anda: ")
+    #Mencari indeks pada array yg masih kosong
+    empty_index = row_length (arr_kritiksaran)
+    #Terminasi
+    new_data = [username, tanggal, ID_wahana, isi_kritik]
+    arr_kritiksaran[empty_index] = new_data
+    return()
+
+#F11
+#Riwayat kritik dan saran
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#F12
+#Prosedur menambahkan wahana baru. 
+#Parameter : array database wahana
+def Tambah_Wahana(_data_wahana):
+#Semua input dianggap valid
+	print("Masukkan Informasi Wahana yang ditambahkan : ")
+
+	nRow = row_length(_data_wahana)
+
+	newWahana = ["" for i in range(5)] 		#Banyak kolom data wahana : 5
+
+	newWahana[0] = input("Masukkan ID Wahana : ")		#ID wahana
+	newWahana[1] = input("Masukkan Nama Wahana : ")		#Nama wahana
+	newWahana[2] = input("Masukkan Harga Tiket : ")		#Harga tiket wahana
+	newWahana[3] = input("Batasan umur : ")				#Umur
+	newWahana[4] = input("Batasan tinggi badan : ")		#Tinggi
+
+	try:
+		_data_wahana[nRow] = newWahana
+		print("\nInfo wahana telah ditambahkan!")
+	except IndexError :		#jika array database wahana sudah penuh
+		print("\nPenambahan tidak dapat dilakukkan, database wahana telah penuh!")
+
+
+
+#F13
+#Prosedur untuk menambahkan saldo dari user. 
+#Parameter : username user, dan array database user
+def Top_Up (_data_user):
+#Semua input dianggap valid
+		
+	_username = input("Masukkan username : ")
+	saldo = int(input("Masukkan saldo yang di-top up : "))
+
+	nRow = row_length(_data_user)
+	idx = -1
+	for i in range(nRow):
+		if (_data_user[i][3] == _username):		#username user berada pada index 3
+			idx = i
+			break
+
+	if (idx != -1):
+		_data_user[idx][6] = str(int(_data_user[idx][6]) + saldo)	#saldo user berada pada index 6
+		print("\nTop up berhasil. Saldo", _data_user[idx][0], "bertambah menjadi", _data_user[idx][6])
+
+
+#F14
+def riwayat_wahana(data_penggunaan_wahana):
+    ID_wahana = input("Masukkan ID Wahana: ")
+    #diasumsikan ID Wahana valid
+    print("Riwayat:")
+    for baris in range(row_length(data_penggunaan_wahana)):
+        if data_penggunaan_wahana[baris][2] == ID_wahana:
+            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
+
+
+#F15
+#Melihat jumlah tiket User. 
+#Parameter : array data kepemilikan tiket dan data wahana
+def Lihat_Tiket(_data_kepimilikan_tiket, _data_wahana):
+#Semua input dianggap valid
+	
+	_username = input("Masukkan username : ")
+	print("Riwayat : ")	
+	
+	nRowWahana = row_length(_data_wahana)
+	nRowTiket = row_length(_data_kepimilikan_tiket)
+
+	nTiket = 0
+	#Mencari tiket wahana yang dimiliki user
+	for i in range(nRowTiket):
+		if (_data_kepimilikan_tiket[i][0] == _username):	#Username terletak pada index 0 pada data kepemilikan tiket
+
+			idWahana = _data_kepimilikan_tiket[i][1]		#ID wahana
+			jml = _data_kepimilikan_tiket[i][2]				#Jumlah tiket yang dimiliki
+
+			for j in range(nRowWahana):
+				if (_data_wahana[j][0] == idWahana):		#ID wahana terletak pada index 0 pada data wahana
+					namaWahana = _data_wahana[j][1]
+					break
+
+			print(idWahana + " | " + namaWahana + " | " + jml)
+			nTiket += 1
+
+	if (nTiket == 0):
+		print("Maaf, Anda belum pernah membeli tiket!")
+
+
+
+
+#F16
+#fungsi exit (keluar dari program)    
+def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_refund, arr_kritiksaran) :
+	#Apakah file mau disimpan?
+	save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
+	if (save == "Y") : #Menyimpan file
+		user = input("Masukkan nama File User: ")
+		save_file(arr_user, str(user))
+		wahana = input("Masukkan nama File Daftar wahana: ")
+		save_file(arr_wahana, str(wahana))
+		pembelian = input("Masukkan nama File Pembelian Tiket: ")
+		save_file(arr_pembelian, str(pembelian))
+		penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+		save_file(arr_penggunaan, str(penggunaan))
+		tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+		save_file(arr_tiket, str(tiket))
+		refund = input("Masukkan nama File Refund Tiket: ")
+		save_file(arr_refund, str(refund))
+		kritiksaran = input("Masukkan nama File Kritik dan Saran: ")
+		save_file(arr_kritiksaran, str(kritiksaran))
+		
+		print("Data berhasil disimpan!")
+	return(True)
+
+
+#B01
+
+
+
+
+
+
+
+
+
+
+
+
+
+#B02
+def upgrade_gold(data_user):
+    # untuk akun gold saldo harus Rp75000
+    print('========================')
+    print("Untuk upgrade, pastikan saldo >= Rp75000")
+    username = input("Masukkan username yang ingin di-upgrade: ")
+    success = False
+    for i in range(7):
+        if data_user[i][3] == username and int(data_user[i][6]) >= 75000:
+            data_user[i][5] = 'pemain+'     #update role, pemain+ adalah golden account
+            data_user[i][6] = int(data_user[i][6]) - 75000    #update saldo
+            print("Akun", username, "telah diupgrade.")
+            success = True
+            break
+    if not success:
+        print("Username tidak ditemukan / saldo tidak cukup")
+
+
+
+#B03
+#Melihat 3 wahana dengan total pembelian tiket ter banyak. 
+#Parameter : array data pembelian tiket
+def Best_Wahana (_data_pembelian_tiket, _data_wahana):
+	
+	nRowWahana = row_length(_data_wahana)
+	nRowPembelian = row_length(_data_pembelian_tiket)
+
+	dataPenjualan = [["" for j in range(3)] for i in range(nRowWahana)] 			#menampung Id wahana, nama wahana, dan jumlah tiket yang terjual
+
+	#Mengambil total penjualan setiap wahana dari riwayat pembelian tiket
+	for i in range(nRowWahana):
+
+		idWahana = _data_wahana[i][0]			#ID wahana
+		namaWahana = _data_wahana[i][1] 		#Nama wahana
+		jml = 0									#Jumlah tiker terjual
+
+		for j in range(nRowPembelian):
+
+			if(_data_pembelian_tiket[j][2] == idWahana):
+				jml += int(_data_pembelian_tiket[j][3])
+
+		dataPenjualan[i][0] = idWahana
+		dataPenjualan[i][1] = namaWahana
+		dataPenjualan[i][2] = str(jml)
+
+
+	if (nRowPembelian != 0):
+		#Sorting data penjualan tiket wahanan
+		for i in range(nRowWahana):
+
+			maks = int(dataPenjualan[i][2])
+			idx = i
+			for j in range(i+1, nRowWahana):
+
+				if (maks < int(dataPenjualan[j][2])):
+					maks = int(dataPenjualan[j][2])
+					idx = j
+
+			tmp = dataPenjualan[i]
+			dataPenjualan[i] = dataPenjualan[idx]
+			dataPenjualan[idx] = tmp
+
+	if (nRowPembelian != 0):
+		#Menampilkan 3 data penjualan tertinggi
+		for i in range(3):
+			print(str(i+1) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
+	else:
+		print("Maaf, belum ada tiket yang terjual!")
+
+
+#B04
+def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
+
+    username = input("Masukkan username: ")
+    tanggal_kehilangan = input("Tanggal kehilangan tiket: ")
+    id_wahana = input("ID wahana: ")
+    jumlah_tiket_hilang = input("Jumlah tiket yang dihilangkan: ")
+
+
+
+    with open('kehilangan _tiket.csv', 'w') as file_kehilangan_tiket:
+        csv_writer = csv.writer(file_kehilangan_tiket, delimiter='/t')
+
+        for baris in range ((row_length(data_kehilangan_tiket))+1):
+            if baris < ((row_length(data_kehilangan_tiket))+1):
+                data_kehilangan_tiket[baris][0] = file_kehilangan_tiket[baris][0]
+                data_kehilangan_tiket[baris][1] = file_kehilangan_tiket[baris][1]
+                data_kehilangan_tiket[baris][2] = file_kehilangan_tiket[baris][2]
+                data_kehilangan_tiket[baris][3] = file_kehilangan_tiket[baris][3]
+            
+            elif baris == ((row_length(data_kehilangan_tiket))+1):
+                data_kehilangan_tiket[baris][0] = username
+                data_kehilangan_tiket[baris][1] = tanggal_kehilangan
+                data_kehilangan_tiket[baris][2] = id_wahana
+                data_kehilangan_tiket[baris][3] = jumlah_tiket_hilang
+            #array data_kehilangan_tiket sudah terupdate
+        
+        for baris in data_kehilangan_tiket:
+            csv_writer.writerow(baris)
+
+    #code untuk mengurangi jumlah tiket yang dimiliki oleh pemain
+
+        for baris in (row_length(data_kepemilikan_tiket)):
+            if (data_kepemilikan_tiket[baris][0] == username) and (data_kepemilikan_tiket[baris][1] == id_wahana):
+                data_kepemilikan_tiket[baris][2] = data_kepemilikan_tiket[baris][2] - jumlah_tiket_hilang
+                break
+
+    
+    print("Laporan kehilangan tiket Anda telah direkam.")
+
+
+
+
+#Fitur tambahan untuk mempermudah
+
+#Prosedur menghitung panjang kolom / menghitung banyaknya kolom
+def column_length(arr_data):
+    panjang = 0
+    for i in arr_data[0]:
+        panjang += 1
+    return panjang
+
+#Prosedur untuk menghitung panjang baris
+def row_length(array_data):    
+    jml_baris = 0
+    idx_baris = 0
+    for row in array_data:
+        if array_data[idx_baris][0] == '': #jika di kolom pertama sudah menemukan default value maka terdeteksi bukan data
+            break
+        jml_baris += 1
+        idx_baris += 1
+    return jml_baris	    
+
+
+#Untuk main menu
+def show_menu_player():
+    print()
+    batas = '='*30
+    print(batas)
+    print("1.Cari Wahana                 ||")
+    print('2.Lihat best wahana           ||')
+    print("3.Beli Tiket Wahana           ||")
+    print("4.Main ke Wahana              ||")
+    print("5.Refund Tiket                ||")
+    print("6.Kotak Kritik dan Saran      ||")
+    print("7.Exit                        ||")
+    print('8.Save data                   ||')
+    print(batas)
+
+
+def show_menu_admin():
+    print()
+    batas = '='*30
+    print("1.SignUp pemain")
+    print('2. Upgrade Akun Gold')
+    print('3.Cari pemain')
+    print('4.Cari Wahana')
+    print('5.Lihat Daftar Kritik dan Saran')
+    print('6.Tambah Wahana Baru')
+    print('7.TopUp saldo pemain')
+    print('8.Lihat Riwayat Penggunaan Wahana')
+    print('9.Lihat jumlah tiket pemain')
+    print('10.Exit')
+    print('11.Save data')
+    batas = '='*30
