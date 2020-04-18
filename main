@@ -14,7 +14,7 @@ data_penggunaan_wahana =[['' for kolom in range(4)] for baris in range(1001)] #d
 data_kepemilikan_tiket =[['' for kolom in range(3)] for baris in range (1001)] #dapat menampung 1000 data kepemilikan tiket user
 data_refund = [['' for kolom in range (4)] for baris in range(501)] #dapat menampung sampai 500 data transaksi refund
 data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menampung data kritik dan saran sebanyak 200 data 
-data_Kehilangan_tiket = [['' for kolom in range(4)] for baris in range(1001)] #dapat menampung data kehilangan tiket sebanyak 200 data
+data_kehilangan_tiket = [['' for kolom in range(4)] for baris in range(1001)] #dapat menampung data kehilangan tiket sebanyak 200 data
 
 print('===============================================================')
 #load semua data
