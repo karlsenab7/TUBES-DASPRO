@@ -517,6 +517,34 @@ def cari_wahana(data_wahana):
             print("Batasan umur tidak valid!")
 	    	    
 	    
+def sort_baris(data_kritik)    
+    for i in range(row_length(data_kritik)):
+        for j in range(i+1, row_length(data_kritik)):
+              
+            temp1 = data_kritik[i][2]
+            temp2 = data_kritik[i+1][2]
+            if temp1[j] > temp2[j]:
+                temp = data_kritik[i]
+                data_kritik[i] = data_kritik[i+1]
+                data_kritik[i+1] = temp 
+
+def riwayat_kritik(data_kritik):
+    data_kritik_sorted = sort_baris(data_kritik)
+    print("Kritik dan saran: ")
+    for baris in range(row_length(data_kritik)):
+        print(data_kritik_sorted[baris][2]+ " | " +data_kritik_sorted[baris][1]+ " | " +data_kritik_sorted[baris][0]+ " | " +data_kritik_sorted[baris][3])
+
+	    
+	    
+	    
+def riwayat_wahana(data_penggunaan_wahana):
+    ID_wahana = input("Masukkan ID Wahana: ")
+    #diasumsikan ID Wahana valid
+    print("Riwayat:")
+    for baris in range(row_lenght(data_penggunaan_wahana)):
+        if data_penggunaan_wahana[baris][2] == ID_wahana:
+            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
+
 def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
 
     username = input("Masukkan username: ")
@@ -554,18 +582,7 @@ def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
                 break
 
     
-    print("Laporan kehilangan tiket Anda telah direkam.")	    
-	    
-	    
-def riwayat_wahana(data_penggunaan_wahana):
-    ID_wahana = input("Masukkan ID Wahana: ")
-    #diasumsikan ID Wahana valid
-    print("Riwayat:")
-    for baris in range(row_lenght(data_penggunaan_wahana)):
-        if data_penggunaan_wahana[baris][2] == ID_wahana:
-            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
-
-
+    print("Laporan kehilangan tiket Anda telah direkam.")
 
 
 
