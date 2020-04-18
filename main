@@ -1,0 +1,172 @@
+#Program Game Chocolate Factory
+#update terakhir : 18 April 2020
+# Oleh kelompok 7, Daspro K-10
+
+
+import csv
+import program as prog
+batas = '==============================================================='
+#deklarasi array
+data_user = [['' for kolom in range (7)] for baris in range (101)] #dapat menampung 100 data
+data_wahana = [['' for kolom in range(5)] for baris in range(51)] #dapat menampung 50 data wahana
+data_pembelian_tiket = [['' for kolom in range (4)] for baris in range(1001)] #dapat menampung sebanyak 1000 kali transaksi
+data_penggunaan_wahana =[['' for kolom in range(4)] for baris in range(1001)] #dapat menampung 1000 data riwayat penggunaan wahana
+data_kepemilikan_tiket =[['' for kolom in range(3)] for baris in range (1001)] #dapat menampung 1000 data kepemilikan tiket user
+data_refund = [['' for kolom in range (4)] for baris in range(501)] #dapat menampung sampai 500 data transaksi refund
+data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menampung data kritik dan saran sebanyak 200 data 
+
+print('===============================================================')
+#load semua data
+file_user = input("Masukkan nama File User: ")
+file_wahana = input("Masukkan nama File Daftar Wahana: ")
+file_pembelian = input("Masukkan nama File Pembelian Tiket: ")
+file_penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+file_tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+file_refund = input("Masukkan nama File Refund Tiket: ")
+file_kritik = input("Masukkan nama File Kritik dan Saran: ")
+
+prog.start_file(data_user,file_user)
+prog.start_file(data_wahana,file_wahana)
+prog.start_file(data_pembelian_tiket, file_pembelian)
+prog.start_file(data_penggunaan_wahana, file_penggunaan)
+prog.start_file(data_kepemilikan_tiket, file_tiket)
+prog.start_file(data_refund,file_refund)
+prog.start_file(data_kritik, file_kritik)
+
+print()
+print('File perusahaan Willy Wangky’s Chocolate Factory telah di-load.')
+print()
+print(batas)
+print("Selamat Datang di Game Willy Wonka's")
+
+#Login
+username = input("Masukkan username : ")
+password = input("Masukkan password : ")
+while not prog.login(username, password,data_user): #disini nanti dikasih pilihan buat exit juga
+    username = input("Masukkan username : ")
+    password = input("Masukkan password : ")
+    print(batas)
+
+#ambil role nya pemain/pemain+/admin
+for i in range (prog.row_length(data_user)):
+    if data_user[i][3] == username:
+        role = data_user[i][5] 
+        break
+
+
+Exit = False
+while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
+    print('===============================================================')
+    if role == 'pemain' or role == 'pemain+':
+        prog.show_menu_player()
+        pilihan = int(input("Mau apa kamu sekarang ? (input angka saja) ")) 
+        if pilihan == 1: #cari wahana
+            print(batas)
+            prog.cari_wahana(data_wahana)
+        elif pilihan == 2:
+            print(batas)
+            prog.Best_Wahana(data_pembelian_tiket, data_wahana)
+        elif pilihan == 3: #beli tiket
+            print(batas)
+            prog.beli_tiket(username, data_pembelian_tiket,data_user,data_wahana, data_kepemilikan_tiket)
+        elif pilihan == 4: #Pake tiket
+            print(batas)
+            prog.Use_Tiket(username, data_kepemilikan_tiket, data_penggunaan_wahana)
+        elif pilihan == 5: #refund
+            print(batas)
+            prog.refund(username, data_kepemilikan_tiket, data_wahana, data_user, data_refund)
+        elif pilihan == 6: #masukan kritik saran
+            print(batas)
+            prog.kritiksaran(username, data_kritik)
+        elif pilihan == 7: #exit
+            print(batas)
+            #Ubah nilai exit menjadi True
+            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
+        elif pilihan == 8: #save file
+            print(batas)
+            save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
+            if (save == "Y") : #Menyimpan file
+                user = input("Masukkan nama File User: ")
+                wahana = input("Masukkan nama File Daftar wahana: ")
+                pembelian = input("Masukkan nama File Pembelian Tiket: ")
+                penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+                tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+                refund = input("Masukkan nama File Refund Tiket: ")
+                kritiksaran = input("Masukkan nama File Kritik dan Saran: ")
+
+                prog.save_file(data_user, (user))
+                prog.save_file(data_wahana,(wahana))
+                prog.save_file(data_pembelian_tiket, (pembelian))
+                prog.save_file(data_penggunaan_wahana, (penggunaan))
+                prog.save_file(data_kepemilikan_tiket, (tiket))
+                prog.save_file(data_refund, (refund))
+                prog.save_file(data_kritik,(kritiksaran))
+                print("Data berhasil disimpan!")
+            else: #user tidak jadi save
+                print('Baiklah, Jangan lupa untuk save file nanti ya!')
+                print()
+
+        else:
+            print(batas)
+            print("Masukkan salah silakan input lagi")
+    
+    else: #role admin
+        prog.show_menu_admin()
+        pilihan = int(input("Mau ngapain sekarang Admin? "))
+        if pilihan == 1: #signup
+            print(batas)
+            prog.sign_up(username, data_user)
+        elif pilihan == 2: #updgrade gold
+            print(batas)
+            prog.upgrade_gold(data_user)
+        elif pilihan == 3: #cari pemain
+            print(batas)
+            prog.cari_pemain(data_user)
+        elif pilihan == 4: #cari wahana
+            print(batas)
+            prog.cari_wahana(data_wahana)
+        elif pilihan == 5: #melihat kritik dan saran
+            print()
+            #belum terisi
+        elif pilihan == 6: #tambah wahana
+            print(batas)
+            prog.Tambah_Wahana(data_wahana)
+        elif pilihan == 7: #topup
+            print(batas)
+            prog.Top_Up(data_user)
+        elif pilihan == 8: #riwayat penggunaan wahana
+            print(batas)
+            prog.riwayat_wahana(data_penggunaan_wahana)
+        elif pilihan == 9: #lihat jumlah tiket pemain
+            print(batas)
+            prog.Lihat_Tiket(data_kepemilikan_tiket, data_wahana)
+        elif pilihan == 10: #Exit
+            print(batas)
+            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
+        elif pilihan == 11: #save
+            print(batas)
+            save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
+            if (save == "Y") : #Menyimpan file
+                user = input("Masukkan nama File User: ")
+                wahana = input("Masukkan nama File Daftar wahana: ")
+                pembelian = input("Masukkan nama File Pembelian Tiket: ")
+                penggunaan = input("Masukkan nama File Penggunaan Tiket: ")
+                tiket = input("Masukkan nama File Kepemilikan Tiket: ")
+                refund = input("Masukkan nama File Refund Tiket: ")
+                kritiksaran = input("Masukkan nama File Kritik dan Saran: ")
+
+                prog.save_file(data_user, (user))
+                prog.save_file(data_wahana,(wahana))
+                prog.save_file(data_pembelian_tiket, (pembelian))
+                prog.save_file(data_penggunaan_wahana, (penggunaan))
+                prog.save_file(data_kepemilikan_tiket, (tiket))
+                prog.save_file(data_refund, (refund))
+                prog.save_file(data_kritik,(kritiksaran))
+                print("Data berhasil disimpan!")
+            else: #user tidak jadi save
+                print(batas)
+                print('Baiklah, Jangan lupa untuk save file nanti ya!')
+                print()
+        else:
+            print("Masukkan tidak valid")
+            print()
