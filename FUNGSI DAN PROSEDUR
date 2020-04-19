@@ -517,22 +517,22 @@ def cari_wahana(data_wahana):
             print("Batasan umur tidak valid!")
 	    	    
 	    
-def sort_baris(data_kritik)    
-    for i in range(row_length(data_kritik)):
-        for j in range(i+1, row_length(data_kritik)):
-              
-            temp1 = data_kritik[i][2]
-            temp2 = data_kritik[i+1][2]
-            if temp1[j] > temp2[j]:
-                temp = data_kritik[i]
-                data_kritik[i] = data_kritik[i+1]
-                data_kritik[i+1] = temp 
-
 def riwayat_kritik(data_kritik):
-    data_kritik_sorted = sort_baris(data_kritik)
+    for Pass in range(1,3):
+        temp = data_kritik[Pass][2]
+        i = Pass - 1
+        while temp < data_kritik[i][2] and i > 1:
+            data_kritik[i+1][2] = data_kritik[i][2]
+            i = i-1
+        if temp >= data_kritik[i][2]:
+            data_kritik[i+1][2] = temp
+        
+        else:
+            data_kritik[i+1][2] = data_kritik[i][2]
+            data_kritik[i][2] = temp
     print("Kritik dan saran: ")
     for baris in range(row_length(data_kritik)):
-        print(data_kritik_sorted[baris][2]+ " | " +data_kritik_sorted[baris][1]+ " | " +data_kritik_sorted[baris][0]+ " | " +data_kritik_sorted[baris][3])
+        print(data_kritik[baris][2]+ " | " +data_kritik[baris][1]+ " | " +data_kritik[baris][0]+ " | " +data_kritik[baris][3])
 
 	    
 	    
