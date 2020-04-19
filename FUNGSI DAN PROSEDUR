@@ -621,7 +621,7 @@ def sign_up(arr_user) :
         new_username = input("Masukkan username pemain: ")
         found = False
         for baris in range (row_length(user_data)) :
-            if (user_data[baris][3] == username) :
+            if (user_data[baris][3] == new_username) :
                 found = True
                 break
         if (not found) :
@@ -630,6 +630,7 @@ def sign_up(arr_user) :
             print ("username sudah dipakai, silahkan masukkan username lainnya!")
 
     password = input("Masukkan password pemain: ")
+    password = hash_password(password)
     role = "pemain"
     saldo = 0
     #Mencari indeks array kosong
@@ -722,10 +723,23 @@ def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_ref
 		print("Data berhasil disimpan!")
 	return(True)
 
+#Hash Pasword, memakai librabry bcrypt
+import bcrypt
+
+def hash_password(password) :
+	"""Hash password yang diinput """
+	salt = bcrypt.gensalt(rounds=16)
+	hashpw = bcrypt.hashpw(password.encode('utf-8'), salt)
+	return hashpw
 
 
 
-
+def verify_password(input_password, password_stored) :
+	"""Memverifikasi password yang diinput dg yang disimpan"""
+	if (bcrypt.checkpw(input_password.encode('utf-8'), password_stored)) :
+		return True
+	else :
+		return False
 
 
 
