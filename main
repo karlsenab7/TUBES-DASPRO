@@ -14,7 +14,7 @@ data_penggunaan_wahana =[['' for kolom in range(4)] for baris in range(1001)] #d
 data_kepemilikan_tiket =[['' for kolom in range(3)] for baris in range (1001)] #dapat menampung 1000 data kepemilikan tiket user
 data_refund = [['' for kolom in range (4)] for baris in range(501)] #dapat menampung sampai 500 data transaksi refund
 data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menampung data kritik dan saran sebanyak 200 data 
-data_kehilangan_tiket = [['' for kolom in range(4)] for baris in range(1001)] #dapat menampung data kehilangan tiket sebanyak 1000 data
+data_kehilangan_tiket = [['' for kolom in range(4)] for baris in range(101)] #Menampung data kehilangan tiket
 
 print('===============================================================')
 #load semua data
@@ -33,6 +33,7 @@ prog.start_file(data_penggunaan_wahana, file_penggunaan)
 prog.start_file(data_kepemilikan_tiket, file_tiket)
 prog.start_file(data_refund,file_refund)
 prog.start_file(data_kritik, file_kritik)
+prog.start_file(data_kehilangan_tiket, 'kehilangan_tiket.csv')
 
 print()
 print('File perusahaan Willy Wangky’s Chocolate Factory telah di-load.')
@@ -60,31 +61,27 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
     print('===============================================================')
     if role == 'pemain' or role == 'pemain+':
         prog.show_menu_player()
-        pilihan = int(input("Mau apa kamu sekarang ? (input angka saja) ")) 
+        pilihan = int(input("Mau apa kamu sekarang ? (input angka saja) "))
+        print(batas)
         if pilihan == 1: #cari wahana
-            print(batas)
             prog.cari_wahana(data_wahana)
         elif pilihan == 2:
-            print(batas)
             prog.Best_Wahana(data_pembelian_tiket, data_wahana)
         elif pilihan == 3: #beli tiket
-            print(batas)
             prog.beli_tiket(username, data_pembelian_tiket,data_user,data_wahana, data_kepemilikan_tiket)
         elif pilihan == 4: #Pake tiket
-            print(batas)
             prog.Use_Tiket(username, data_kepemilikan_tiket, data_penggunaan_wahana)
         elif pilihan == 5: #refund
-            print(batas)
             prog.refund(username, data_kepemilikan_tiket, data_wahana, data_user, data_refund)
         elif pilihan == 6: #masukan kritik saran
-            print(batas)
             prog.kritiksaran(username, data_kritik)
-        elif pilihan == 7: #exit
-            print(batas)
+        elif pilihan == 7: #lapor tiket hilang
+            prog.laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket)
+        elif pilihan == 8: #exit
+            prog.save_file(data_kehilangan_tiket,'kehilangan_tiket.csv')
             #Ubah nilai exit menjadi True
             Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
-        elif pilihan == 8: #save file
-            print(batas)
+        elif pilihan == 9: #save file
             save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
             if (save == "Y") : #Menyimpan file
                 user = input("Masukkan nama File User: ")
@@ -102,13 +99,14 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
                 prog.save_file(data_kepemilikan_tiket, (tiket))
                 prog.save_file(data_refund, (refund))
                 prog.save_file(data_kritik,(kritiksaran))
+                prog.save_file(data_kehilangan_tiket,'kehilangan_tiket.csv')
                 print("Data berhasil disimpan!")
             else: #user tidak jadi save
                 print('Baiklah, Jangan lupa untuk save file nanti ya!')
                 print()
-
+        elif pilihan == 10:
+            prog.lihat_profile(username,password,data_user)
         else:
-            print(batas)
             print("Masukkan salah silakan input lagi")
     
     else: #role admin
@@ -163,6 +161,7 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
                 prog.save_file(data_kepemilikan_tiket, (tiket))
                 prog.save_file(data_refund, (refund))
                 prog.save_file(data_kritik,(kritiksaran))
+                prog.save_file(data_kehilangan_tiket,'kehilangan_tiket.csv')
                 print("Data berhasil disimpan!")
             else: #user tidak jadi save
                 print(batas)
