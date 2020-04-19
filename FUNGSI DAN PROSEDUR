@@ -245,13 +245,13 @@ def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 
 	dataPenggunaan = ["" for i in range(4)]
 	valid = False
-	while(not valid and nKepemilikanTiket != 0):
+	while(not valid and nKepemilikanTiket != 1):
 
 		ID = input("Masukkan ID wahana : ")
-		date = input("Masukkan tanggal hari ini : ")
+		date = input("Masukkan tanggal hari ini (DD/MM/YYYY) : ")
 		tickets = input("Jumlah tiket yang digunakan : ")
 
-		for i in range(nKepemilikanTiket):
+		for i in range(1, nKepemilikanTiket):
 			if (_data_kepemilikan_tiket[i][0] == _username):
 				if (_data_kepemilikan_tiket[i][1] == ID and _data_kepemilikan_tiket[i][2] >= tickets and tickets != 0):
 					valid = True		
@@ -282,13 +282,13 @@ def Tambah_Wahana(_data_wahana):
 
 	nRow = row_length(_data_wahana)
 
-	newWahana = ["" for i in range(5)] 		#Banyak kolom data wahana : 5
+	newWahana = ["" for i in range(5)] 			#Banyak kolom data wahana : 5
 
-	newWahana[0] = input("Masukkan ID Wahana : ")		#ID wahana
+	newWahana[0] = input("Masukkan ID Wahana (SEM/ANK/DEW. ex SEM009) : ")		#ID wahana
 	newWahana[1] = input("Masukkan Nama Wahana : ")		#Nama wahana
 	newWahana[2] = input("Masukkan Harga Tiket : ")		#Harga tiket wahana
-	newWahana[3] = input("Batasan umur : ")				#Umur
-	newWahana[4] = input("Batasan tinggi badan : ")		#Tinggi
+	newWahana[3] = input("Batasan umur (anak-anak/dewasa/semua umur) : ")			#Umur
+	newWahana[4] = input("Batasan tinggi badan (tanpa batasan / >=170) : ")		#Tinggi
 
 	try:
 		_data_wahana[nRow] = newWahana
@@ -307,7 +307,7 @@ def Top_Up (_data_user):
 
 	nRow = row_length(_data_user)
 	idx = -1
-	for i in range(nRow):
+	for i in range(1, nRow):
 		if (_data_user[i][3] == _username):		#username user berada pada index 3
 			idx = i
 			break
@@ -330,13 +330,13 @@ def Lihat_Tiket(_data_kepimilikan_tiket, _data_wahana):
 
 	nTiket = 0
 	#Mencari tiket wahana yang dimiliki user
-	for i in range(nRowTiket):
+	for i in range(1, nRowTiket):
 		if (_data_kepimilikan_tiket[i][0] == _username):	#Username terletak pada index 0 pada data kepemilikan tiket
 
 			idWahana = _data_kepimilikan_tiket[i][1]		#ID wahana
-			jml = _data_kepimilikan_tiket[i][2]				#Jumlah tiket yang dimiliki
+			jml = _data_kepimilikan_tiket[i][2]			#Jumlah tiket yang dimiliki
 
-			for j in range(nRowWahana):
+			for j in range(1, nRowWahana):
 				if (_data_wahana[j][0] == idWahana):		#ID wahana terletak pada index 0 pada data wahana
 					namaWahana = _data_wahana[j][1]
 					break
@@ -360,13 +360,13 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 	dataPenjualan = [["" for j in range(3)] for i in range(nRowWahana)] 			#menampung Id wahana, nama wahana, dan jumlah tiket yang terjual
 
 	#Mengambil total penjualan setiap wahana dari riwayat pembelian tiket
-	for i in range(nRowWahana):
+	for i in range(1, nRowWahana):
 
 		idWahana = _data_wahana[i][0]			#ID wahana
 		namaWahana = _data_wahana[i][1] 		#Nama wahana
-		jml = 0									#Jumlah tiker terjual
+		jml = 0						#Jumlah tiker terjual
 
-		for j in range(nRowPembelian):
+		for j in range(1, nRowPembelian):
 
 			if(_data_pembelian_tiket[j][2] == idWahana):
 				jml += int(_data_pembelian_tiket[j][3])
@@ -376,9 +376,9 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 		dataPenjualan[i][2] = str(jml)
 
 
-	if (nRowPembelian != 0):
+	if (nRowPembelian != 1):
 		#Sorting data penjualan tiket wahanan
-		for i in range(nRowWahana):
+		for i in range(1, nRowWahana):
 
 			maks = int(dataPenjualan[i][2])
 			idx = i
@@ -393,10 +393,10 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 			dataPenjualan[idx] = tmp
 
 
-	if (nRowPembelian != 0):
+	if (nRowPembelian != 1):
 		#Menampilkan 3 data penjualan tertinggi
-		for i in range(3):
-			print(str(i+1) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
+		for i in range(1, 4):
+			print(str(i) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
 	else:
 		print("Maaf, belum ada tiket yang terjual!")
 
