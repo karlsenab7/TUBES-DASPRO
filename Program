@@ -1,7 +1,9 @@
+#Program berisi fungsi dan prosedur untuk menjalankan game willy wonkas
+#Update terakhir : 19-04-2020
+#Oleh Kelompok 7 K-10
+
+
 import csv
-
-
-
 #F01
 #Prosedur untuk memasukan data csv ke array
 def load(arrData, csv_file_path): 
@@ -19,7 +21,8 @@ def create_file(csv_file_path):
         writer = csv.writer(csv_file)
         if csv_file_path == ('user.csv'):
             writer.writerow(['Nama', 'Tanggal_Lahir','Tinggi_Badan', 'Username', 'Password', 'Role', 'Saldo'])
-            writer.writerow(['admin', '00/00/0000', '0', 'admin', 'password', 'admin', '0']) #ini akun untuk admin
+            password_admin = hash_password('password')
+            writer.writerow(['admin', '00/00/0000', '0', 'admin', '%s' %password_admin, 'admin', '0']) #ini akun untuk admin
         elif csv_file_path == 'wahana.csv':
             data = [['SEM001', 'Bianglala', '50000', 'semua umur', 'tanpa batasan'],
                     ['SEM002', 'Poci-Poci', '40000', 'semua umur', 'tanpa batasan'],
@@ -45,6 +48,8 @@ def create_file(csv_file_path):
             writer.writerow(['Username', 'Tanggal_Refund', 'ID_Wahana', 'Jumlah_Tiket'])
         elif csv_file_path == 'kritiksaran.csv':
             writer.writerow(['Username', 'Tanggal_Kritik', 'ID_Wahana', 'Isi_Kritik'])
+        elif csv_file_path == 'kehilangan_tiket.csv':
+	        writer.writerow(['Username', 'Tanggal_Kehilangan', 'ID_Wahana', 'Jumlah_Tiket_Hilang'])
 
 def start_file(arr_data, csv_file_name):
     try:
@@ -55,16 +60,21 @@ def start_file(arr_data, csv_file_name):
 
 
 #F02
-def login(username,password, array_data):
-    found = False
-    for i in range(0, 7):
-        if array_data[i][3] == username and array_data[i][4] == password:
-            print("Selamat bersenang-senang, Willy Wangky!")
-            found = True
-            return True
-    if not found:
-        print("Ups, password salah atau kamu tidak terdaftar dalam sistem kami. Silakan coba lagi!")
-        return False
+def login(username, password, array_user):
+	found = False
+	for i in range(row_length(array_user)):
+		if array_user[i][3] == username:
+			password_stored = bytes((array_user[i][4])[2:62], 'utf-8')
+			if verify_password (password, password_stored):
+				print("Selamat bersenang-senang", array_user[i][0])
+				found = True
+				return True
+			else:
+				print("Ups, password salah atau kamu tidak terdaftar dalam sistem kami. Silakan coba lagi!")
+				return False
+	if not found:
+		print("Ups, password salah atau kamu tidak terdaftar dalam sistem kami. Silakan coba lagi!")
+		return False
 
 #F03
 #Prosedur untuk memasukkan array ke csv
@@ -94,6 +104,7 @@ def sign_up(username,arr_user) :
             print ("username sudah dipakai, silahkan masukkan username lainnya!")
 
     password = input("Masukkan password pemain: ")
+    password = hash_password(password)
     role = "pemain"
     saldo = 0
     #Mencari indeks array kosong
@@ -206,6 +217,9 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
     tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
     jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
+    while jumlah_tiket <= 0:
+        print('Masukan jumlah tiket yang benar, >= 0')
+        jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
 
     tahun_beli = int(tanggal[6:]) #dapatkan tahun pembelian
     #dapatkan tanggal lahir,tinggi_badan, dan saldo username yang diakses dari array yang berisi file user.csv
@@ -310,7 +324,7 @@ def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 
 		ID = input("Masukkan ID wahana : ")
 		date = input("Masukkan tanggal hari ini : ")
-		tickets = input("Jumlah tiket yang digunakan : ")
+		tickets = int(input("Jumlah tiket yang digunakan : "))
 
 		for i in range(nKepemilikanTiket):
 			if (_data_kepemilikan_tiket[i][0] == _username):
@@ -330,7 +344,7 @@ def Use_Tiket (_username, _data_kepemilikan_tiket, _data_penggunaan_wahana):
 		dataPenggunaan[2] = ID
 		dataPenggunaan[3] = tickets
 
-		_data_kepemilikan_tiket[idx][2] = str(int(_data_kepemilikan_tiket[idx][2]) - int(tickets))	#Pengurangan tiket	
+		_data_kepemilikan_tiket[idx][2] = str(int(_data_kepemilikan_tiket[idx][2]) - (tickets))	#Pengurangan tiket	
 		_data_penggunaan_wahana[nPenggunaanWahana] = dataPenggunaan
     
 #F09
@@ -395,17 +409,24 @@ def kritiksaran(username ,arr_kritiksaran) :
 #F11
 #Riwayat kritik dan saran
 
+def sort_baris(data_kritik):
+    for i in range(row_length(data_kritik)):
+        for j in range(i+1, row_length(data_kritik)):
+              
+            temp1 = data_kritik[i][2]
+            temp2 = data_kritik[i+1][2]
+            if temp1[j] > temp2[j]:
+                temp = data_kritik[i]
+                data_kritik[i] = data_kritik[i+1]
+                data_kritik[i+1] = temp 
+'''
+def riwayat_kritik(data_kritik):
+    data_kritik_sorted = sort_baris(data_kritik)
+    print("Kritik dan saran: ")
+    for baris in range(row_length(data_kritik)):
+        print(data_kritik_sorted[baris][2]+ " | " +data_kritik_sorted[baris][1]+ " | " +data_kritik_sorted[baris][0]+ " | " +data_kritik_sorted[baris][3])
 
-
-
-
-
-
-
-
-
-
-
+'''
 
 
 #F12
@@ -524,16 +545,21 @@ def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_ref
 
 
 #B01
+#Hash Pasword, memakai librabry bcrypt
+import bcrypt
 
+def hash_password(password) :
+	"""Hash password yang diinput """
+	salt = bcrypt.gensalt(rounds=12)
+	hashpw = bcrypt.hashpw(password.encode('utf-8'), salt)
+	return hashpw
 
-
-
-
-
-
-
-
-
+def verify_password(input_password, password_stored) :
+	"""Memverifikasi password yang diinput dg yang disimpan"""
+	if (bcrypt.checkpw(input_password.encode('utf-8'), password_stored)) :
+		return True
+	else :
+		return False
 
 
 
@@ -611,55 +637,67 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
 
     username = input("Masukkan username: ")
-    tanggal_kehilangan = input("Tanggal kehilangan tiket: ")
-    id_wahana = input("ID wahana: ")
-    jumlah_tiket_hilang = input("Jumlah tiket yang dihilangkan: ")
+    tanggal_kehilangan = input("Tanggal kehilangan tiket: (format DD/MM/YYYY)")
+    id_wahana = input("ID wahana: ") #asumsi id wahana valid
+    jumlah_tiket_hilang = int(input("Jumlah tiket yang dihilangkan: "))
 
-
-
-    with open('kehilangan _tiket.csv', 'w') as file_kehilangan_tiket:
-        csv_writer = csv.writer(file_kehilangan_tiket, delimiter='/t')
-
-        for baris in range ((row_length(data_kehilangan_tiket))+1):
-            if baris < ((row_length(data_kehilangan_tiket))+1):
-                data_kehilangan_tiket[baris][0] = file_kehilangan_tiket[baris][0]
-                data_kehilangan_tiket[baris][1] = file_kehilangan_tiket[baris][1]
-                data_kehilangan_tiket[baris][2] = file_kehilangan_tiket[baris][2]
-                data_kehilangan_tiket[baris][3] = file_kehilangan_tiket[baris][3]
-            
-            elif baris == ((row_length(data_kehilangan_tiket))+1):
-                data_kehilangan_tiket[baris][0] = username
-                data_kehilangan_tiket[baris][1] = tanggal_kehilangan
-                data_kehilangan_tiket[baris][2] = id_wahana
-                data_kehilangan_tiket[baris][3] = jumlah_tiket_hilang
-            #array data_kehilangan_tiket sudah terupdate
-        
-        for baris in data_kehilangan_tiket:
-            csv_writer.writerow(baris)
+    data_laporan = [username,tanggal_kehilangan,id_wahana,jumlah_tiket_hilang]
+    empty_idx = row_length(data_kehilangan_tiket)
+    data_kehilangan_tiket[empty_idx] = data_laporan
 
     #code untuk mengurangi jumlah tiket yang dimiliki oleh pemain
-
-        for baris in (row_length(data_kepemilikan_tiket)):
-            if (data_kepemilikan_tiket[baris][0] == username) and (data_kepemilikan_tiket[baris][1] == id_wahana):
-                data_kepemilikan_tiket[baris][2] = data_kepemilikan_tiket[baris][2] - jumlah_tiket_hilang
+    tiket_valid = False #Boolean untuk cek apakah jumlah yang hilang lebih sedikit dari yang dimiliki atau tidak
+    for baris in range (row_length(data_kepemilikan_tiket)):
+        if (data_kepemilikan_tiket[baris][0] == username) and (data_kepemilikan_tiket[baris][1] == id_wahana):
+            if int(data_kepemilikan_tiket[baris][2]) >= jumlah_tiket_hilang:
+                data_kepemilikan_tiket[baris][2] = int(data_kepemilikan_tiket[baris][2]) - jumlah_tiket_hilang
+                tiket_valid = True
+                print("Laporan kehilangan tiket Anda telah direkam.")
                 break
-
-    
-    print("Laporan kehilangan tiket Anda telah direkam.")
+            
+    if not tiket_valid:
+        print('Maaf, wahana tidak valid / jumlah tiket Anda yang hilang lebih banyak dari yang terdaftar pada sistem kami \nTidak dapat diproses')
+   
+def lihat_riwayat_kehilangan(data_kehilangan_tiket):
+    for i in range(row_length(data_kehilangan_tiket)):
+        print('=====================================')
+        print('Username : ' + data_kehilangan_tiket[i][0])
+        print('Tanggal Kehilangan : ' + data_kehilangan_tiket[i][1])
+        print('ID Wahana : ' + data_kehilangan_tiket[i][2])
+        print('Jumlah tiket hilang : ' + data_kehilangan_tiket[i][3])
+        print()
 
 
 
 
 #Fitur tambahan untuk mempermudah
 
-#Prosedur menghitung panjang kolom / menghitung banyaknya kolom
+#Info pemain, profile 
+def lihat_profile(username,password, array_user):
+    for i in range (row_length(array_user)):
+        if array_user[i][3] == username:
+            print('Username :', username)
+            print('Password :', password)
+            print('===============================================================')
+            print('Nama :', array_user[i][0])
+            print('Tanggal lahir :', array_user[i][1])
+            print('Tinggi Badan:', array_user[i][2])
+            print('Saldo :',array_user[i][6])
+            print('Gold Account: ',end='')
+            if array_user[i][5] == 'pemain':
+                print('No')
+            else:
+                print('Yes')
+
+
+#Prosedur menghitung panjang kolom / menghitung banyaknya data
 def column_length(arr_data):
     panjang = 0
     for i in arr_data[0]:
         panjang += 1
     return panjang
 
-#Prosedur untuk menghitung panjang baris
+#Prosedur untuk menghitung panjang baris terisi
 def row_length(array_data):    
     jml_baris = 0
     idx_baris = 0
@@ -682,23 +720,25 @@ def show_menu_player():
     print("4.Main ke Wahana              ||")
     print("5.Refund Tiket                ||")
     print("6.Kotak Kritik dan Saran      ||")
-    print("7.Exit                        ||")
-    print('8.Save data                   ||')
+    print('7.Lapor tiket hilang          ||')
+    print("8.Exit                        ||")
+    print('9.Save data                   ||')
+    print('10.Lihat Profil               ||')
     print(batas)
 
 
 def show_menu_admin():
     print()
     batas = '='*30
-    print("1.SignUp pemain")
-    print('2. Upgrade Akun Gold')
-    print('3.Cari pemain')
-    print('4.Cari Wahana')
-    print('5.Lihat Daftar Kritik dan Saran')
-    print('6.Tambah Wahana Baru')
-    print('7.TopUp saldo pemain')
-    print('8.Lihat Riwayat Penggunaan Wahana')
-    print('9.Lihat jumlah tiket pemain')
-    print('10.Exit')
-    print('11.Save data')
+    print("1.SignUp pemain                  ||")
+    print('2. Upgrade Akun Gold             ||')
+    print('3.Cari pemain                    ||')
+    print('4.Cari Wahana                    ||')
+    print('5.Lihat Daftar Kritik dan Saran  ||')
+    print('6.Tambah Wahana Baru             ||')
+    print('7.TopUp saldo pemain             ||')
+    print('8.Lihat Riwayat Penggunaan Wahana||')
+    print('9.Lihat jumlah tiket pemain      ||')
+    print('10.Exit                          ||')
+    print('11.Save data                     ||')
     batas = '='*30
