@@ -1,5 +1,5 @@
 #Program Game Chocolate Factory
-#update terakhir : 18 April 2020
+#update terakhir : 19 April 2020
 # Oleh kelompok 7, Daspro K-10
 
 
@@ -44,7 +44,8 @@ print("Selamat Datang di Game Willy Wonka's")
 #Login
 username = input("Masukkan username : ")
 password = input("Masukkan password : ")
-while not prog.login(username, password,data_user): #disini nanti dikasih pilihan buat exit juga
+while not prog.login(username, password,data_user):
+    print(batas)
     username = input("Masukkan username : ")
     password = input("Masukkan password : ")
     print(batas)
@@ -112,35 +113,26 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
     else: #role admin
         prog.show_menu_admin()
         pilihan = int(input("Mau ngapain sekarang Admin? "))
-        if pilihan == 1: #signup
-            print(batas)
+        print(batas)
+        if pilihan == 1: #signup          
             prog.sign_up(username, data_user)
         elif pilihan == 2: #updgrade gold
-            print(batas)
             prog.upgrade_gold(data_user)
         elif pilihan == 3: #cari pemain
-            print(batas)
             prog.cari_pemain(data_user)
         elif pilihan == 4: #cari wahana
-            print(batas)
             prog.cari_wahana(data_wahana)
         elif pilihan == 5: #melihat kritik dan saran
-            print()
-            #belum terisi
+            prog.riwayat_kritik(data_kritik)
         elif pilihan == 6: #tambah wahana
-            print(batas)
             prog.Tambah_Wahana(data_wahana)
         elif pilihan == 7: #topup
-            print(batas)
             prog.Top_Up(data_user)
         elif pilihan == 8: #riwayat penggunaan wahana
-            print(batas)
             prog.riwayat_wahana(data_penggunaan_wahana)
         elif pilihan == 9: #lihat jumlah tiket pemain
-            print(batas)
             prog.Lihat_Tiket(data_kepemilikan_tiket, data_wahana)
         elif pilihan == 10: #Exit
-            print(batas)
             Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
         elif pilihan == 11: #save
             print(batas)
@@ -164,7 +156,6 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
                 prog.save_file(data_kehilangan_tiket,'kehilangan_tiket.csv')
                 print("Data berhasil disimpan!")
             else: #user tidak jadi save
-                print(batas)
                 print('Baiklah, Jangan lupa untuk save file nanti ya!')
                 print()
         else:
