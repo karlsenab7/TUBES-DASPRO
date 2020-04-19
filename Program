@@ -26,13 +26,13 @@ def create_file(csv_file_path):
         elif csv_file_path == 'wahana.csv':
             data = [['SEM001', 'Bianglala', '50000', 'semua umur', 'tanpa batasan'],
                     ['SEM002', 'Poci-Poci', '40000', 'semua umur', 'tanpa batasan'],
-                    ['DEW001', 'Kora-Kora', '40000', 'dewasa', '>=170'],
-                    ['DEW002', 'Hysteria', '50000', 'dewasa', '>=170'],
-                    ['DEW003', 'Kicir-Kicir', '40000', 'dewasa', '>=170'],
-                    ['DEW004', 'Tornado', '40000', 'dewasa', '>=170'],
+                    ['DEW001', 'Kora-Kora', '40000', 'dewasa', '>170'],
+                    ['DEW002', 'Hysteria', '50000', 'dewasa', '>170'],
+                    ['DEW003', 'Kicir-Kicir', '40000', 'dewasa', '>170'],
+                    ['DEW004', 'Tornado', '40000', 'dewasa', '>170'],
                     ['SEM003', 'Istana Boneka', '35000', 'semua umur', 'tanpa batasan'],
                     ['ANK001', 'Happy Feet', '35000', 'anak-anak', 'tanpa batasan'],
-                    ['DEW005', 'Arung Jeram', '50000', 'dewasa', '>=170'],
+                    ['DEW005', 'Arung Jeram', '50000', 'dewasa', '>170'],
                     ['SEM004', 'Rumah Miring', '40000', 'semua umur', 'tanpa batasan'],
                     ['ANK002', 'Dunia Kartun', '40000', 'anak-anak', 'tanpa batasan']]
             writer.writerow(['ID_Wahana', 'Nama_Wahana','Harga_Tiket', 'Batasan_Umur', 'Batasan_Tinggi'])
@@ -133,12 +133,12 @@ def cari_pemain(arr_data): #array yang dimasukkan adalah array user
 #F06
 def cari_wahana(data_wahana):
     print("Jenis batasan umur: ")
-    print("1. Anak-anak (<=12 tahun)")
-    print("2. Dewasa (>=18 tahun)")
+    print("1. Anak-anak (<17 tahun)")
+    print("2. Dewasa (>=17 tahun)")
     print("3. Semua umur")
     print()
     print("Jenis batasan tinggi badan: ")
-    print("1. Lebih dari sama dengan 170 cm")
+    print("1. Lebih dari 170 cm")
     print("2. Tanpa batasan")
     print()
     
@@ -161,7 +161,7 @@ def cari_wahana(data_wahana):
                     found = False
                     if (umur_pemain == "1") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">=170"):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
@@ -177,7 +177,7 @@ def cari_wahana(data_wahana):
                                 
                     elif (umur_pemain == "2") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">=170"):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
@@ -193,7 +193,7 @@ def cari_wahana(data_wahana):
 
                     elif (umur_pemain == "3") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">=170"):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp',str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
@@ -241,8 +241,7 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
             batasan_tinggi = arr_data_wahana[idx_baris][4]
             break
 
-    #asumsi umur yang mendekati umur tersebut dibulatkan
-    #misal usia anak-anak 12 tahun, tahun sekarang 2020, tahun lahir user 2008, maka akan digenapkan menjadi 12 tahun meskipun sebenarnya ia belum ulang tahun pada tahun tersebut
+    #asumsi usia mengikuti selisih tahun
     umur_user = tahun_beli - tahun_lahir_user
     total_harga = (harga_tiket * jumlah_tiket)
 
@@ -251,21 +250,21 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         total_harga = (0.5 * harga_tiket) * jumlah_tiket
 
     beli_sukses = False #tanda berhasil diproses atau tidak
-    if batasan_umur == 'anak-anak' and umur_user <= 12:
+    if batasan_umur == 'anak-anak' and umur_user < 17:
         #pada wahana anak-anak tidak ada batas tinggi badan
         if saldo >= total_harga:
             beli_sukses = True
             print("Selamat bersenang-senang di Almond’s Charm!", username)
         else: #saldo tidak cukup
             print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-    elif batasan_umur == 'dewasa' and umur_user >= 18:
-        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
+    elif batasan_umur == 'dewasa' and umur_user >= 17:
+        if batasan_tinggi == '>170' and Tinggi_Badan > 170:
             if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
+        elif batasan_tinggi == '>170' and Tinggi_Badan <= 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
             if saldo >= total_harga:
@@ -274,13 +273,13 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
     elif batasan_umur == 'semua umur':
-        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
+        if batasan_tinggi == '>170' and Tinggi_Badan > 170:
             if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
+        elif batasan_tinggi == '>170' and Tinggi_Badan <= 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
             if saldo >= total_harga:
@@ -408,25 +407,23 @@ def kritiksaran(username ,arr_kritiksaran) :
 
 #F11
 #Riwayat kritik dan saran
-
-def sort_baris(data_kritik):
-    for i in range(row_length(data_kritik)):
-        for j in range(i+1, row_length(data_kritik)):
-              
-            temp1 = data_kritik[i][2]
-            temp2 = data_kritik[i+1][2]
-            if temp1[j] > temp2[j]:
-                temp = data_kritik[i]
-                data_kritik[i] = data_kritik[i+1]
-                data_kritik[i+1] = temp 
-'''
 def riwayat_kritik(data_kritik):
-    data_kritik_sorted = sort_baris(data_kritik)
+    for Pass in range(1,3):
+        temp = data_kritik[Pass][2]
+        i = Pass - 1
+        while temp < data_kritik[i][2] and i > 1:
+            data_kritik[i+1][2] = data_kritik[i][2]
+            i = i-1
+        if temp >= data_kritik[i][2]:
+            data_kritik[i+1][2] = temp
+        
+        else:
+            data_kritik[i+1][2] = data_kritik[i][2]
+            data_kritik[i][2] = temp
     print("Kritik dan saran: ")
     for baris in range(row_length(data_kritik)):
-        print(data_kritik_sorted[baris][2]+ " | " +data_kritik_sorted[baris][1]+ " | " +data_kritik_sorted[baris][0]+ " | " +data_kritik_sorted[baris][3])
+        print(data_kritik[baris][2]+ " | " +data_kritik[baris][1]+ " | " +data_kritik[baris][0]+ " | " +data_kritik[baris][3])
 
-'''
 
 
 #F12
@@ -479,10 +476,14 @@ def Top_Up (_data_user):
 def riwayat_wahana(data_penggunaan_wahana):
     ID_wahana = input("Masukkan ID Wahana: ")
     #diasumsikan ID Wahana valid
+    found = False
     print("Riwayat:")
     for baris in range(row_length(data_penggunaan_wahana)):
         if data_penggunaan_wahana[baris][2] == ID_wahana:
             print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
+            found = True
+    if not found:
+        print("Belum ada wahana yang dimainkan / ID Wahana tidak ditemukan")
 
 
 #F15
@@ -566,7 +567,6 @@ def verify_password(input_password, password_stored) :
 #B02
 def upgrade_gold(data_user):
     # untuk akun gold saldo harus Rp75000
-    print('========================')
     print("Untuk upgrade, pastikan saldo >= Rp75000")
     username = input("Masukkan username yang ingin di-upgrade: ")
     success = False
@@ -586,20 +586,19 @@ def upgrade_gold(data_user):
 #Melihat 3 wahana dengan total pembelian tiket ter banyak. 
 #Parameter : array data pembelian tiket
 def Best_Wahana (_data_pembelian_tiket, _data_wahana):
-	
 	nRowWahana = row_length(_data_wahana)
 	nRowPembelian = row_length(_data_pembelian_tiket)
 
 	dataPenjualan = [["" for j in range(3)] for i in range(nRowWahana)] 			#menampung Id wahana, nama wahana, dan jumlah tiket yang terjual
 
 	#Mengambil total penjualan setiap wahana dari riwayat pembelian tiket
-	for i in range(nRowWahana):
+	for i in range(1, nRowWahana):
 
 		idWahana = _data_wahana[i][0]			#ID wahana
 		namaWahana = _data_wahana[i][1] 		#Nama wahana
-		jml = 0									#Jumlah tiker terjual
+		jml = 0						#Jumlah tiker terjual
 
-		for j in range(nRowPembelian):
+		for j in range(1, nRowPembelian):
 
 			if(_data_pembelian_tiket[j][2] == idWahana):
 				jml += int(_data_pembelian_tiket[j][3])
@@ -609,9 +608,9 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 		dataPenjualan[i][2] = str(jml)
 
 
-	if (nRowPembelian != 0):
+	if (nRowPembelian != 1):
 		#Sorting data penjualan tiket wahanan
-		for i in range(nRowWahana):
+		for i in range(1, nRowWahana):
 
 			maks = int(dataPenjualan[i][2])
 			idx = i
@@ -625,12 +624,14 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 			dataPenjualan[i] = dataPenjualan[idx]
 			dataPenjualan[idx] = tmp
 
-	if (nRowPembelian != 0):
+
+	if (nRowPembelian != 1):
 		#Menampilkan 3 data penjualan tertinggi
-		for i in range(3):
-			print(str(i+1) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
+		for i in range(1, 4):
+			print(str(i) + " | " + dataPenjualan[i][0] + " | " + dataPenjualan[i][1] + " | " + dataPenjualan[i][2])
 	else:
 		print("Maaf, belum ada tiket yang terjual!")
+
 
 
 #B04
@@ -682,7 +683,7 @@ def lihat_profile(username,password, array_user):
             print('Nama :', array_user[i][0])
             print('Tanggal lahir :', array_user[i][1])
             print('Tinggi Badan:', array_user[i][2])
-            print('Saldo :',array_user[i][6])
+            print('Saldo : Rp',array_user[i][6])
             print('Gold Account: ',end='')
             if array_user[i][5] == 'pemain':
                 print('No')
