@@ -26,13 +26,13 @@ def create_file(csv_file_path):
         elif csv_file_path == 'wahana.csv':
             data = [['SEM001', 'Bianglala', '50000', 'semua umur', 'tanpa batasan'],
                     ['SEM002', 'Poci-Poci', '40000', 'semua umur', 'tanpa batasan'],
-                    ['DEW001', 'Kora-Kora', '40000', 'dewasa', '>170'],
-                    ['DEW002', 'Hysteria', '50000', 'dewasa', '>170'],
-                    ['DEW003', 'Kicir-Kicir', '40000', 'dewasa', '>170'],
-                    ['DEW004', 'Tornado', '40000', 'dewasa', '>170'],
+                    ['DEW001', 'Kora-Kora', '40000', 'dewasa', '>=170'],
+                    ['DEW002', 'Hysteria', '50000', 'dewasa', '>=170'],
+                    ['DEW003', 'Kicir-Kicir', '40000', 'dewasa', '>=170'],
+                    ['DEW004', 'Tornado', '40000', 'dewasa', '>=170'],
                     ['SEM003', 'Istana Boneka', '35000', 'semua umur', 'tanpa batasan'],
                     ['ANK001', 'Happy Feet', '35000', 'anak-anak', 'tanpa batasan'],
-                    ['DEW005', 'Arung Jeram', '50000', 'dewasa', '>170'],
+                    ['DEW005', 'Arung Jeram', '50000', 'dewasa', '>=170'],
                     ['SEM004', 'Rumah Miring', '40000', 'semua umur', 'tanpa batasan'],
                     ['ANK002', 'Dunia Kartun', '40000', 'anak-anak', 'tanpa batasan']]
             writer.writerow(['ID_Wahana', 'Nama_Wahana','Harga_Tiket', 'Batasan_Umur', 'Batasan_Tinggi'])
