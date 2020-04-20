@@ -315,6 +315,8 @@ def Top_Up (_data_user):
 	if (idx != -1):
 		_data_user[idx][6] = str(int(_data_user[idx][6]) + saldo)	#saldo user berada pada index 6
 		print("\nTop up berhasil. Saldo", _data_user[idx][0], "bertambah menjadi", _data_user[idx][6])
+	else:
+		print("Maaf, username tidak terdaftar!")
 
 
 #Melihat jumlah tiket User. 
