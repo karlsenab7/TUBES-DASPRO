@@ -444,7 +444,7 @@ def cari_wahana(data_wahana):
     print("3. Semua umur")
     print()
     print("Jenis batasan tinggi badan: ")
-    print("1. Lebih dari 170 cm")
+    print("1. lebih besar sama dengan  170 cm")
     print("2. Tanpa batasan")
     print()
     
@@ -467,7 +467,7 @@ def cari_wahana(data_wahana):
                     found = False
                     if (umur_pemain == "1") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">= 170 cm"):
+                            if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">=170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
@@ -483,7 +483,7 @@ def cari_wahana(data_wahana):
                                 
                     elif (umur_pemain == "2") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">= 170 cm"):
+                            if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">=170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
@@ -499,7 +499,7 @@ def cari_wahana(data_wahana):
 
                     elif (umur_pemain == "3") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
-                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">= 170 cm"):
+                            if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">=170"):
                                 print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
