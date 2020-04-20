@@ -735,7 +735,7 @@ def show_menu_admin():
     print()
     batas = '='*30
     print("1.SignUp pemain                  ||")
-    print('2. Upgrade Akun Gold             ||')
+    print('2.Upgrade Akun Gold             ||')
     print('3.Cari pemain                    ||')
     print('4.Cari Wahana                    ||')
     print('5.Lihat Daftar Kritik dan Saran  ||')
