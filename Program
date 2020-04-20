@@ -258,13 +258,13 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         else: #saldo tidak cukup
             print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
     elif batasan_umur == 'dewasa' and umur_user >= 17:
-        if batasan_tinggi == '>170' and Tinggi_Badan > 170:
+        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
             if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-        elif batasan_tinggi == '>170' and Tinggi_Badan <= 170:
+        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
             if saldo >= total_harga:
@@ -273,13 +273,13 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
     elif batasan_umur == 'semua umur':
-        if batasan_tinggi == '>170' and Tinggi_Badan > 170:
+        if batasan_tinggi == '>=170' and Tinggi_Badan >= 170:
             if saldo >= total_harga:
                 beli_sukses = True
                 print("Selamat bersenang-senang di Almond’s Charm!", username)
             else: #saldo kurang
                 print("Saldo Anda tidak cukup"); print("Silakan mengisi saldo Anda")
-        elif batasan_tinggi == '>170' and Tinggi_Badan <= 170:
+        elif batasan_tinggi == '>=170' and Tinggi_Badan < 170:
             print("Anda tidak memenuhi persyaratan untuk memainkan wahana ini."); print("Silakan menggunakan wahana lain yang tersedia.")
         elif batasan_tinggi == 'tanpa batasan':
             if saldo >= total_harga:
