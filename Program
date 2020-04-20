@@ -478,14 +478,20 @@ def Top_Up (_data_user):
 def riwayat_wahana(data_penggunaan_wahana):
     ID_wahana = input("Masukkan ID Wahana: ")
     #diasumsikan ID Wahana valid
-    found = False
     print("Riwayat:")
-    for baris in range(row_length(data_penggunaan_wahana)):
-        if data_penggunaan_wahana[baris][2] == ID_wahana:
-            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
-            found = True
-    if not found:
-        print("Belum ada wahana yang dimainkan / ID Wahana tidak ditemukan")
+    if (row_lenght(data_penggunaan_wahana)) > 0:
+        jumlah = 0
+        for baris in range(row_lenght(data_penggunaan_wahana)):
+            if data_penggunaan_wahana[baris][2] == ID_wahana:
+                print(data_penggunaan_wahana[baris][1]+ " | " + data_penggunaan_wahana[baris][0]+ " | " +data_penggunaan_wahana[baris][3])
+                jumlah += 1
+        
+        if jumlah == 0:
+            print("Wahana ini belum pernah dimainkan")
+            
+    
+    else:       #data kosong
+        print("Belum ada wahana yang dimainkan")
 
 
 #F15
