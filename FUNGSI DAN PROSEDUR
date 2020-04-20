@@ -543,10 +543,19 @@ def riwayat_wahana(data_penggunaan_wahana):
     ID_wahana = input("Masukkan ID Wahana: ")
     #diasumsikan ID Wahana valid
     print("Riwayat:")
-    for baris in range(row_lenght(data_penggunaan_wahana)):
-        if data_penggunaan_wahana[baris][2] == ID_wahana:
-            print(data_penggunaan_wahana[baris][1], " | " , data_penggunaan_wahana[baris][0], " | " , data_penggunaan_wahana[baris][3])
-
+    if (row_lenght(data_penggunaan_wahana)) > 0:
+        jumlah = 0
+        for baris in range(row_lenght(data_penggunaan_wahana)):
+            if data_penggunaan_wahana[baris][2] == ID_wahana:
+                print(data_penggunaan_wahana[baris][1]+ " | " + data_penggunaan_wahana[baris][0]+ " | " +data_penggunaan_wahana[baris][3])
+                jumlah += 1
+        
+        if jumlah == 0:
+            print("Wahana ini belum pernah dimainkan")
+            
+    
+    else:       #data kosong
+        print("Belum ada wahana yang dimainkan")
 def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
 
     username = input("Masukkan username: ")
