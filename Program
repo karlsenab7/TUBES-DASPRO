@@ -146,12 +146,12 @@ def cari_wahana(data_wahana):
     cek_valid_tinggi = False
 
     while cek_valid_umur == False:
-        umur_pemain = input("Batasan umur pemain: (masukan angka pilihan)")
+        umur_pemain = input("Batasan umur pemain (masukan angka pilihan) : ")
 
         if (umur_pemain == "1") or (umur_pemain == "2") or (umur_pemain == "3"):
             cek_valid_umur = True
             while cek_valid_tinggi == False:  
-                tinggi_badan = input("Batasan tinggi badan: (masukan angka pilihan)")
+                tinggi_badan = input("Batasan tinggi badan (masukan angka pilihan) : ")
                 if (tinggi_badan == "1") or (tinggi_badan == "2"):
                     cek_valid_tinggi = True
                     print()     #hanya sebagai enter
