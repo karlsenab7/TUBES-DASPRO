@@ -382,9 +382,9 @@ def refund(username, arr_tiket, arr_wahana, arr_user, arr_refund):
         arr_tiket[index_tiket][2] = int(arr_tiket[index_tiket][2]) - amount_ticket
         #Menghitung saldo akhir
         if (arr_user[index_user][5] == "pemain+") :
-            arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.5*0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+            arr_user[index_user][6] = float(arr_user[index_user][6]) + 0.5*0.75*amount_ticket*int(arr_wahana[index_wahana][2])
         else : #user bukan gold account
-            arr_user[index_user][6] = int(arr_user[index_user][6]) + 0.75*amount_ticket*int(arr_wahana[index_wahana][2])
+            arr_user[index_user][6] = float(arr_user[index_user][6]) + 0.75*amount_ticket*int(arr_wahana[index_wahana][2])
         #Mengembalikan input pada array global
         new_data = [username,tanggal,ID_wahana,amount_ticket]
         arr_refund[empty_index] = new_data
