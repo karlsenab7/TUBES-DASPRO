@@ -1,5 +1,5 @@
 #Program berisi fungsi dan prosedur untuk menjalankan game willy wonkas
-#Update terakhir : 19-04-2020
+#Update terakhir : 20-04-2020
 #Oleh Kelompok 7 K-10
 
 
@@ -133,12 +133,12 @@ def cari_pemain(arr_data): #array yang dimasukkan adalah array user
 #F06
 def cari_wahana(data_wahana):
     print("Jenis batasan umur: ")
-    print("1. Anak-anak (<17 tahun")
+    print("1. Anak-anak (<17 tahun)")
     print("2. Dewasa (>=17 tahun)")
     print("3. Semua umur")
     print()
     print("Jenis batasan tinggi badan: ")
-    print("1. lebih besar sama dengan  170 cm")
+    print("1. Lebih dari 170 cm")
     print("2. Tanpa batasan")
     print()
     
@@ -146,12 +146,12 @@ def cari_wahana(data_wahana):
     cek_valid_tinggi = False
 
     while cek_valid_umur == False:
-        umur_pemain = input("Batasan umur pemain: ")
+        umur_pemain = input("Batasan umur pemain: (masukan angka pilihan)")
 
         if (umur_pemain == "1") or (umur_pemain == "2") or (umur_pemain == "3"):
             cek_valid_umur = True
             while cek_valid_tinggi == False:  
-                tinggi_badan = input("Batasan tinggi badan: ")
+                tinggi_badan = input("Batasan tinggi badan: (masukan angka pilihan)")
                 if (tinggi_badan == "1") or (tinggi_badan == "2"):
                     cek_valid_tinggi = True
                     print()     #hanya sebagai enter
@@ -162,7 +162,7 @@ def cari_wahana(data_wahana):
                     if (umur_pemain == "1") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == ">=170"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.")                                
@@ -170,7 +170,7 @@ def cari_wahana(data_wahana):
                     elif (umur_pemain == "1") and (tinggi_badan == "2"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "anak-anak") and (data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp',str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
@@ -178,7 +178,7 @@ def cari_wahana(data_wahana):
                     elif (umur_pemain == "2") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == ">=170"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
@@ -186,7 +186,7 @@ def cari_wahana(data_wahana):
                     elif (umur_pemain == "2") and (tinggi_badan == "2"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "dewasa") and (data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
@@ -194,7 +194,7 @@ def cari_wahana(data_wahana):
                     elif (umur_pemain == "3") and (tinggi_badan == "1"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == ">=170"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , 'Rp',str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
@@ -202,7 +202,7 @@ def cari_wahana(data_wahana):
                     elif (umur_pemain == "3") and (tinggi_badan == "2"):
                         for baris in range (row_length(data_wahana)):
                             if (data_wahana[baris][3] == "semua umur") and (data_wahana[baris][4] == "tanpa batasan"):
-                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " , str(data_wahana[baris][2]))
+                                print(str(data_wahana[baris][0]), " | " , str(data_wahana[baris][1]), " | " ,'Rp', str(data_wahana[baris][2]))
                                 found = True
                             elif (baris == (row_length(data_wahana))) and (found == False):
                                 print("Tidak ada wahana yang sesuai dengan pencarian kamu.") 
@@ -458,7 +458,7 @@ def Top_Up (_data_user):
 #Semua input dianggap valid
 		
 	_username = input("Masukkan username : ")
-	saldo = int(input("Masukkan saldo yang di-top up : "))
+	saldo = int(input("Masukkan saldo yang di-top up (Rp): "))
 
 	nRow = row_length(_data_user)
 	idx = -1
@@ -479,9 +479,9 @@ def riwayat_wahana(data_penggunaan_wahana):
     ID_wahana = input("Masukkan ID Wahana: ")
     #diasumsikan ID Wahana valid
     print("Riwayat:")
-    if (row_lenght(data_penggunaan_wahana)) > 0:
+    if (row_length(data_penggunaan_wahana)) > 0:
         jumlah = 0
-        for baris in range(row_lenght(data_penggunaan_wahana)):
+        for baris in range(row_length(data_penggunaan_wahana)):
             if data_penggunaan_wahana[baris][2] == ID_wahana:
                 print(data_penggunaan_wahana[baris][1]+ " | " + data_penggunaan_wahana[baris][0]+ " | " +data_penggunaan_wahana[baris][3])
                 jumlah += 1
@@ -579,7 +579,7 @@ def upgrade_gold(data_user):
     username = input("Masukkan username yang ingin di-upgrade: ")
     success = False
     for i in range(7):
-        if data_user[i][3] == username and int(data_user[i][6]) >= 75000:
+        if data_user[i][3] == username and float(data_user[i][6]) >= 75000:
             success = True
             if data_user[i][5] == 'pemain':
                 data_user[i][5] = 'pemain+'     #update role, pemain+ adalah golden account
@@ -591,6 +591,7 @@ def upgrade_gold(data_user):
                 break
     if not success:
         print("Username tidak ditemukan / saldo tidak cukup")
+
 
 
 #B03
@@ -690,7 +691,7 @@ def lihat_profile(username,password, array_user):
         if array_user[i][3] == username:
             print('Username :', username)
             print('Password :', password)
-            print('===============================================================')
+            print('=============================================================================')
             print('Nama :', array_user[i][0])
             print('Tanggal lahir :', array_user[i][1])
             print('Tinggi Badan:', array_user[i][2])
@@ -724,33 +725,34 @@ def row_length(array_data):
 #Untuk main menu
 def show_menu_player():
     print()
-    batas = '='*30
+    batas = '============================================================================='
     print(batas)
-    print("1.Cari Wahana                 ||")
-    print('2.Lihat best wahana           ||')
-    print("3.Beli Tiket Wahana           ||")
-    print("4.Main ke Wahana              ||")
-    print("5.Refund Tiket                ||")
-    print("6.Kotak Kritik dan Saran      ||")
-    print('7.Lapor tiket hilang          ||')
-    print("8.Exit                        ||")
-    print('9.Save data                   ||')
-    print('10.Lihat Profil               ||')
+    print("1.Cari Wahana                 ")
+    print('2.Lihat best wahana           ')
+    print("3.Beli Tiket Wahana           ")
+    print("4.Main ke Wahana              ")
+    print("5.Refund Tiket                ")
+    print("6.Kotak Kritik dan Saran      ")
+    print('7.Lapor tiket hilang          ')
+    print("8.Exit                        ")
+    print('9.Save data                   ')
+    print('10.Lihat Profil               ')
     print(batas)
 
 
 def show_menu_admin():
     print()
-    batas = '='*30
-    print("1.SignUp pemain                  ||")
-    print('2.Upgrade Akun Gold             ||')
-    print('3.Cari pemain                    ||')
-    print('4.Cari Wahana                    ||')
-    print('5.Lihat Daftar Kritik dan Saran  ||')
-    print('6.Tambah Wahana Baru             ||')
-    print('7.TopUp saldo pemain             ||')
-    print('8.Lihat Riwayat Penggunaan Wahana||')
-    print('9.Lihat jumlah tiket pemain      ||')
-    print('10.Exit                          ||')
-    print('11.Save data                     ||')
-    batas = '='*30
+    batas = '============================================================================='
+    print(batas)
+    print("1.SignUp pemain                  ")
+    print('2.Upgrade Akun Gold              ')
+    print('3.Cari pemain                    ')
+    print('4.Cari Wahana                    ')
+    print('5.Lihat Daftar Kritik dan Saran  ')
+    print('6.Tambah Wahana Baru             ')
+    print('7.TopUp saldo pemain             ')
+    print('8.Lihat Riwayat Penggunaan Wahana')
+    print('9.Lihat jumlah tiket pemain      ')
+    print('10.Exit                          ')
+    print('11.Save data                     ')
+    print(batas)
