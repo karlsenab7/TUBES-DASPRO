@@ -1,11 +1,19 @@
 #Program Game Chocolate Factory
-#update terakhir : 19 April 2020
+#update terakhir : 20 April 2020
 # Oleh kelompok 7, Daspro K-10
-
 
 import csv
 import program as prog
-batas = '==============================================================='
+
+batas = '============================================================================='
+print(batas)
+print('----------------------- SELAMAT DATANG DI GAME MASTER -----------------------')
+print(batas)
+print()
+print('Load file terlebih dahulu : ')
+
+
+
 #deklarasi array
 data_user = [['' for kolom in range (7)] for baris in range (101)] #dapat menampung 100 data
 data_wahana = [['' for kolom in range(5)] for baris in range(51)] #dapat menampung 50 data wahana
@@ -16,7 +24,8 @@ data_refund = [['' for kolom in range (4)] for baris in range(501)] #dapat menam
 data_kritik = [['' for kolom in range(4)] for baris in range(201)] #dapat menampung data kritik dan saran sebanyak 200 data 
 data_kehilangan_tiket = [['' for kolom in range(4)] for baris in range(101)] #Menampung data kehilangan tiket
 
-print('===============================================================')
+
+
 #load semua data
 file_user = input("Masukkan nama File User: ")
 file_wahana = input("Masukkan nama File Daftar Wahana: ")
@@ -59,10 +68,10 @@ for i in range (prog.row_length(data_user)):
 
 Exit = False
 while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
-    print('===============================================================')
+    print(batas)
     if role == 'pemain' or role == 'pemain+':
         prog.show_menu_player()
-        pilihan = int(input("Mau apa kamu sekarang ? (input angka saja) "))
+        pilihan = int(input("Mau apa kamu sekarang (input angka saja) ?  "))
         print(batas)
         if pilihan == 1: #cari wahana
             prog.cari_wahana(data_wahana)
@@ -161,3 +170,12 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
         else:
             print("Masukkan tidak valid")
             print()
+print()
+print(batas)
+print()
+print('“If you want to view paradise, take around and view it.”')
+print()
+print()
+print('                                        ~Kakek dari Willy Wangky~')
+
+a = input('PRESS ANY KEY TO CONTINUE ...')
