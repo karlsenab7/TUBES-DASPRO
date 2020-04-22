@@ -89,9 +89,8 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
         elif pilihan == 7: #lapor tiket hilang
             prog.laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket)
         elif pilihan == 8: #exit
-            prog.save_file(data_kehilangan_tiket,'kehilangan.csv')
             #Ubah nilai exit menjadi True
-            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
+            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik, data_kehilangan_tiket)
         elif pilihan == 9: #save file
             save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
             if (save == "Y") : #Menyimpan file
@@ -146,8 +145,7 @@ while not Exit: #selama Exit != True, artinya pemain belum memilih keluar
         elif pilihan == 10: #lihat riwayat kehilangan tiket
             prog.lihat_riwayat_kehilangan(data_kehilangan_tiket)
         elif pilihan == 11: #Exit
-            prog.save_file(data_kehilangan_tiket, 'kehilangan.csv')
-            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik)
+            Exit = prog.exit(data_user, data_wahana, data_pembelian_tiket, data_penggunaan_wahana, data_kepemilikan_tiket, data_refund, data_kritik, data_kehilangan_tiket)
         elif pilihan == 12: #save
             print(batas)
             save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
