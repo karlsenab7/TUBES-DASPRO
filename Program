@@ -1,5 +1,5 @@
 #Program berisi fungsi dan prosedur untuk menjalankan game willy wonkas
-#Update terakhir : 20-04-2020
+#Update terakhir : 22-04-2020
 #Oleh Kelompok 7 K-10
 
 
@@ -48,7 +48,7 @@ def create_file(csv_file_path):
             writer.writerow(['Username', 'Tanggal_Refund', 'ID_Wahana', 'Jumlah_Tiket'])
         elif csv_file_path == 'kritiksaran.csv':
             writer.writerow(['Username', 'Tanggal_Kritik', 'ID_Wahana', 'Isi_Kritik'])
-        elif csv_file_path == 'kehilangan_tiket.csv':
+        elif csv_file_path == 'kehilangan.csv':
 	        writer.writerow(['Username', 'Tanggal_Kehilangan', 'ID_Wahana', 'Jumlah_Tiket_Hilang'])
 
 def start_file(arr_data, csv_file_name):
@@ -146,12 +146,12 @@ def cari_wahana(data_wahana):
     cek_valid_tinggi = False
 
     while cek_valid_umur == False:
-        umur_pemain = input("Batasan umur pemain (masukan angka pilihan) : ")
+        umur_pemain = input("Batasan umur pemain: (masukan angka pilihan)")
 
         if (umur_pemain == "1") or (umur_pemain == "2") or (umur_pemain == "3"):
             cek_valid_umur = True
             while cek_valid_tinggi == False:  
-                tinggi_badan = input("Batasan tinggi badan (masukan angka pilihan) : ")
+                tinggi_badan = input("Batasan tinggi badan: (masukan angka pilihan)")
                 if (tinggi_badan == "1") or (tinggi_badan == "2"):
                     cek_valid_tinggi = True
                     print()     #hanya sebagai enter
@@ -212,7 +212,6 @@ def cari_wahana(data_wahana):
         else:       #input diluar pilihan 1, 2, dan 3
             print("Batasan umur tidak valid!")
 
-#F07
 #F07
 def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data_tiket):
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
@@ -323,6 +322,7 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
             data_tiket = [username, ID_Wahana, jumlah_tiket]
             idx_empty = row_length(arr_data_tiket) #dapatkan indeks yang masih kosong untuk diisi data
             arr_data_tiket[idx_empty] = data_tiket
+
 
 #F08
 #Prosedur Penggunaan Tiket
@@ -664,7 +664,7 @@ def Best_Wahana (_data_pembelian_tiket, _data_wahana):
 def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
 
     username = input("Masukkan username: ")
-    tanggal_kehilangan = input("Tanggal kehilangan tiket: (format DD/MM/YYYY)")
+    tanggal_kehilangan = input("Tanggal kehilangan tiket (format DD/MM/YYYY) : ")
     id_wahana = input("ID wahana: ") #asumsi id wahana valid
     jumlah_tiket_hilang = int(input("Jumlah tiket yang dihilangkan: "))
 
@@ -686,13 +686,23 @@ def laporan_kehilangan_tiket(data_kehilangan_tiket, data_kepemilikan_tiket):
         print('Maaf, wahana tidak valid / jumlah tiket Anda yang hilang lebih banyak dari yang terdaftar pada sistem kami \nTidak dapat diproses')
    
 def lihat_riwayat_kehilangan(data_kehilangan_tiket):
-    for i in range(row_length(data_kehilangan_tiket)):
-        print('=====================================')
-        print('Username : ' + data_kehilangan_tiket[i][0])
-        print('Tanggal Kehilangan : ' + data_kehilangan_tiket[i][1])
-        print('ID Wahana : ' + data_kehilangan_tiket[i][2])
-        print('Jumlah tiket hilang : ' + data_kehilangan_tiket[i][3])
-        print()
+    if data_kehilangan_tiket[0][0] == 'Username':
+        for i in range(1,row_length(data_kehilangan_tiket)):
+            print('=====================================')
+            print('Username : ' + data_kehilangan_tiket[i][0])
+            print('Tanggal Kehilangan : ' + data_kehilangan_tiket[i][1])
+            print('ID Wahana : ' + data_kehilangan_tiket[i][2])
+            print('Jumlah tiket hilang : ' + data_kehilangan_tiket[i][3])
+            print()
+    else:
+        for i in range(row_length(data_kehilangan_tiket)):
+            print('=====================================')
+            print('Username : ' + data_kehilangan_tiket[i][0])
+            print('Tanggal Kehilangan : ' + data_kehilangan_tiket[i][1])
+            print('ID Wahana : ' + data_kehilangan_tiket[i][2])
+            print('Jumlah tiket hilang : ' + data_kehilangan_tiket[i][3])
+            print()
+
 
 
 
@@ -767,6 +777,7 @@ def show_menu_admin():
     print('7.TopUp saldo pemain             ')
     print('8.Lihat Riwayat Penggunaan Wahana')
     print('9.Lihat jumlah tiket pemain      ')
-    print('10.Exit                          ')
-    print('11.Save data                     ')
+    print('10.Lihat riwayat kehilangan tiket')
+    print('11.Exit                          ')
+    print('12.Save data                     ')
     print(batas)
