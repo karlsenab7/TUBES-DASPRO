@@ -544,7 +544,7 @@ def Lihat_Tiket(_data_kepimilikan_tiket, _data_wahana):
 
 #F16
 #fungsi exit (keluar dari program)    
-def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_refund, arr_kritiksaran) :
+def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_refund, arr_kritiksaran, arr_kehilangan) :
 	#Apakah file mau disimpan?
 	save = input("Apakah anda mau melakukan penyimpanan file yang sudah dilakukan (Y/N) ? ")
 	if (save == "Y") : #Menyimpan file
@@ -562,6 +562,8 @@ def exit(arr_user, arr_wahana, arr_pembelian, arr_penggunaan, arr_tiket, arr_ref
 		save_file(arr_refund, str(refund))
 		kritiksaran = input("Masukkan nama File Kritik dan Saran: ")
 		save_file(arr_kritiksaran, str(kritiksaran))
+		kehilangan_tiket = input('Masukkan nama file kehilangan tiket :')
+		save_file(arr_kehilangan, kehilangan_tiket)
 		
 		print("Data berhasil disimpan!")
 	return(True)
