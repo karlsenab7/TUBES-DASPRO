@@ -216,10 +216,10 @@ def cari_wahana(data_wahana):
 def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data_tiket):
     ID_Wahana = input("Masukkan ID wahana : ") #asumsi user selalu menginput hal yang benar
     tanggal = input("Masukkan tanggal hari ini : {format (DD/MM/YYYY)}") #asumsi input user selalu benar
-    jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
-    while jumlah_tiket <= 0:
+    jumlah_tiket = input("Jumlah tiket yang dibeli : ")
+    while int(jumlah_tiket) <= 0:
         print('Masukan jumlah tiket yang benar, >= 0')
-        jumlah_tiket = int(input("Jumlah tiket yang dibeli : "))
+        jumlah_tiket = input("Jumlah tiket yang dibeli : ")
 
     #dapatkan tanggal lahir,tinggi_badan, dan saldo username yang diakses dari array yang berisi file user.csv
     for idx_baris in range(row_length(arr_data_user)):
@@ -257,11 +257,11 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
     else: #birth_month > present_month
         umur_user = present_year - birth_year - 1
 
-    total_harga = (harga_tiket * jumlah_tiket)
+    total_harga = (harga_tiket * int(jumlah_tiket))
 
     #jika memiliki akun gold harga tiket setengahnya
     if role_user == 'pemain+':
-        total_harga = (0.5 * harga_tiket) * jumlah_tiket
+        total_harga = (0.5 * harga_tiket) * int(jumlah_tiket)
 
     beli_sukses = False #tanda berhasil diproses atau tidak
     if batasan_umur == 'anak-anak' and umur_user < 17:
@@ -315,7 +315,7 @@ def beli_tiket(username, arr_data_beli, arr_data_user, arr_data_wahana, arr_data
         tiket_punya = False #False, artinya username belum punya tiket sebelumnya
         for baris in range (row_length(arr_data_tiket)): #cek apakah username sudah memiliki tiket di ID Wahana tersebut atau belum
             if arr_data_tiket[baris][0] == username and arr_data_tiket[baris][1] == ID_Wahana:
-                arr_data_tiket[baris][2] = int(arr_data_tiket[baris][2]) + jumlah_tiket #update jumlah tiket dimiliki
+                arr_data_tiket[baris][2] = str(int(arr_data_tiket[baris][2]) + int(jumlah_tiket)) #update jumlah tiket dimiliki
                 tiket_punya = True
                 break
         if tiket_punya == False:
