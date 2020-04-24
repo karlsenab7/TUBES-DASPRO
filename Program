@@ -598,7 +598,7 @@ def upgrade_gold(data_user):
     print("Untuk upgrade, pastikan saldo >= Rp75000")
     username = input("Masukkan username yang ingin di-upgrade: ")
     success = False
-    for i in range(row_length(data_user):
+    for i in range(row_length(data_user)):
         if data_user[i][3] == username and float(data_user[i][6]) >= 75000:
             success = True
             if data_user[i][5] == 'pemain':
