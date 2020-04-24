@@ -420,23 +420,27 @@ def kritiksaran(username ,arr_kritiksaran) :
     return()
 
 #F11
-#Riwayat kritik dan saran
 def riwayat_kritik(data_kritik):
-    for Pass in range(1,3):
-        temp = data_kritik[Pass][2]
-        i = Pass - 1
-        while temp < data_kritik[i][2] and i > 1:
-            data_kritik[i+1][2] = data_kritik[i][2]
-            i = i-1
-        if temp >= data_kritik[i][2]:
-            data_kritik[i+1][2] = temp
-        
-        else:
-            data_kritik[i+1][2] = data_kritik[i][2]
-            data_kritik[i][2] = temp
-    print("Kritik dan saran: ")
-    for baris in range(row_length(data_kritik)):
-        print(data_kritik[baris][2]+ " | " +data_kritik[baris][1]+ " | " +data_kritik[baris][0]+ " | " +data_kritik[baris][3])
+	if data_kritik[0][0] == 'Username':
+		N = 2
+		M = 1
+	else:
+		N = 1
+		M = 0
+	for Pass in range(N,prog.row_length(data_kritik)):
+		temp = data_kritik[Pass]
+		i = Pass - 1
+		while temp[2] < data_kritik[i][2] and i > M:
+			data_kritik[i+1] = data_kritik[i]
+			i = i-1
+		if temp[2] >= data_kritik[i][2]:
+			data_kritik[i+1] = temp
+		else:
+			data_kritik[i+1] = data_kritik[i]
+			data_kritik[i] = temp		
+	print(data_kritik)
+	for baris in range(prog.row_length(data_kritik)):
+		print(data_kritik[baris][2] + ' | ' + data_kritik[baris][1] + ' | ' + data_kritik[baris][0] + ' | ' + data_kritik[baris][3])
 
 
 
