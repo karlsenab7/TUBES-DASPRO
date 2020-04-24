@@ -427,7 +427,7 @@ def riwayat_kritik(data_kritik):
 	else:
 		N = 1
 		M = 0
-	for Pass in range(N,prog.row_length(data_kritik)):
+	for Pass in range(N,row_length(data_kritik)):
 		temp = data_kritik[Pass]
 		i = Pass - 1
 		while temp[2] < data_kritik[i][2] and i > M:
@@ -439,7 +439,7 @@ def riwayat_kritik(data_kritik):
 			data_kritik[i+1] = data_kritik[i]
 			data_kritik[i] = temp		
 	print(data_kritik)
-	for baris in range(prog.row_length(data_kritik)):
+	for baris in range(row_length(data_kritik)):
 		print(data_kritik[baris][2] + ' | ' + data_kritik[baris][1] + ' | ' + data_kritik[baris][0] + ' | ' + data_kritik[baris][3])
 
 
