@@ -9,6 +9,7 @@ Nama :
 
 PANDUAN
 Pastikan modul bcrypt sudah terinstall
+(Jika belum, silahkan diinstall melalui cmd dengan command : "pip install bcrypt")
 Saat proses load, input nama file harap mengikuti urutan berikut (tanpa angka):
 1.'user.csv'
 2.'wahana.csv'
