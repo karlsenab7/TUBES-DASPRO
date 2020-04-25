@@ -387,7 +387,7 @@ def refund(username, arr_tiket, arr_wahana, arr_user, arr_refund):
             index_user = i
             break
     #Mencari indeks pada array yang masih kosong
-    empty_index = row_length (arr_user)
+    empty_index = row_length (arr_refund)
     #Terminasi
     if (not found) :
         print("Anda tidak memiliki tiket terkait.")
